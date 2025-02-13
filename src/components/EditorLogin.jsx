@@ -5,9 +5,9 @@ import styled from "styled-components";
 import { FaEnvelope, FaLock, FaSignInAlt,FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { authorLogin } from "../Features/Slice";
+import { editorLogin } from "../Features/Slice";
 import { useDispatch } from "react-redux";
-import bg from '../Images/514.jpg'
+import bg from '../Images/6420.jpg'
 
 const LoginContainer = styled.div`
   display: flex;
@@ -95,7 +95,7 @@ const SwitchText = styled.p`
   }
 `;
 
-const AuthorLogin = () => {
+const EditorLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -120,7 +120,7 @@ const AuthorLogin = () => {
     });
 
     try {
-      const response = await fetch("https://www.ajga-journal.org/api/author_login.php", {
+      const response = await fetch("https://www.ajga-journal.org/api/editor_login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -135,15 +135,15 @@ const AuthorLogin = () => {
           text: "Welcome back, " + result.user.full_name,
         }).then((result)=>{
           if(result.isConfirmed){
-            navigate("/authordashboard");
+            navigate("/editordashboard");
           }
         })
 
        
         dispatch(
-          authorLogin({
-            authorInfo: result.user,
-            authorToken: result.token,
+          editorLogin({
+            editorInfo: result.user,
+            editorToken: result.token,
           })
         );
         
@@ -168,7 +168,7 @@ const AuthorLogin = () => {
   return (
     <LoginContainer>
       <FormWrapper>
-        <h2 style={{ color: "rgba(0,0,255,0.5)" }}>Author Login</h2>
+        <h2 style={{ color: "rgba(0,0,255,0.5)" }}>Editor Login</h2>
         <form onSubmit={handleSubmit}>
           <InputField>
             <FaEnvelope style={{ color: "rgba(0,0,255,0.5)" }} />
@@ -189,16 +189,16 @@ const AuthorLogin = () => {
         </form>
 
         <SwitchText>
-          Don't have an Author account? <a onClick={() => navigate('/authorsignup')}>Sign Up</a>
+          Don't have an Editor account? <a onClick={() => navigate('/editorsignup')}>Sign Up</a>
         </SwitchText>
 
         <SwitchText>
-          <a onClick={() => navigate('/authorforgotpassword')}>Forgot Password </a>
+          <a onClick={() => navigate('/editorforgotpassword')}>Forgot Password </a>
         </SwitchText>
       </FormWrapper>
     </LoginContainer>
   );
 };
 
-export default AuthorLogin;
+export default EditorLogin;
 

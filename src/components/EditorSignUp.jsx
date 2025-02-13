@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { FaUser, FaEnvelope, FaLock, FaBuilding, FaUserGraduate, FaPhone, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2'
-import bg from '../Images/514.jpg'
+import bg from '../Images/6420.jpg'
 
 const SignUpContainer = styled.div`
   padding-top: 100px;
@@ -117,7 +117,7 @@ const SwitchText = styled.p`
   }
 `;
 
-const AuthorSignUp = () => {
+const EditorSignUp = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -211,7 +211,7 @@ const AuthorSignUp = () => {
     });
   
     try {
-      const response = await fetch("https://www.ajga-journal.org/api/author_signup.php", {
+      const response = await fetch("https://www.ajga-journal.org/api/editor_signup.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -225,7 +225,7 @@ const AuthorSignUp = () => {
           title: "Registration Successful!",
           text: result.message,
         }).then(() => {
-          navigate("/authorlogin"); // Redirect after success
+          navigate("/editorlogin"); // Redirect after success
         });
       } else {
         Swal.fire({
@@ -252,7 +252,7 @@ const AuthorSignUp = () => {
   return (
     <SignUpContainer>
       <FormWrapper>
-        <h2 style={{ color: "rgba(0, 0, 255, 0.5)" }}>Author Sign-Up</h2>
+        <h2 style={{ color: "rgba(0, 0, 255, 0.5)" }}>Editor Sign-Up</h2>
         <form onSubmit={handleSubmit}>
           <InputField>
             <FaUser style={{ color: "rgba(0,0,255,0.5" }} />
@@ -322,13 +322,13 @@ const AuthorSignUp = () => {
         </form>
 
         <SwitchText>
-          Already have an Author account? <a onClick={() => navigate('/authorlogin')}>Log In</a>
+          Already have an Editor account? <a onClick={() => navigate('/editorlogin')}>Log In</a>
         </SwitchText>
       </FormWrapper>
     </SignUpContainer>
   );
 };
 
-export default AuthorSignUp;
+export default EditorSignUp;
 
 

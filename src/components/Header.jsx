@@ -1,85 +1,7 @@
-// import React from "react";
-// import { useNavigate } from "react-router-dom";
-// import styled from "styled-components";
-// import logo from '../Images/logo.png'
-
-// const HeaderContainer = styled.header`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   padding: 20px 50px;
-//   background: rgba(0, 0, 0, 0.5);
-//   position: fixed;
-//   width: 100%;
-//   top: 0;
-//   z-index: 1000;
-// `;
-
-// const LogoWrap = styled.div`
-//   display:flex;
-//   justify-content:center;
-//   align-items:center;
-//   gap:10px;
-//   cursor:pointer;
-
-//   img{
-//     width:40px;
-//     height:40px;
-//     border-radius:50%;
-//   }
-// `
-
-// const Logo = styled.h1`
-//   font-size: 24px;
-//   font-weight: bold;
-//   font-style: italic;
-//   font-family: Brush Script MT, Brush Script Std, cursive;
-//   color: white;
-//   cursor: pointer;
-// `;
-
-// const Nav = styled.nav`
-//   display: flex;
-//   gap: 20px;
-// `;
-
-// const NavLink = styled.a`
-//   color: white;
-//   text-decoration: none;
-//   font-size: 0.8rem;
-//   transition: 0.3s;
-//   cursor:pointer;
-//   &:hover {
-//     // color: #ffaf7b;
-//     // text-decoration:underline;
-//   }
-// `;
-
-// const Header = () => {
-//     const navigate = useNavigate();
-//   return (
-//     <HeaderContainer>
-//       <LogoWrap onClick={()=>navigate('/')}>
-//         <img src={logo} alt="logo"/>
-//         <Logo>AJGA</Logo>
-//       </LogoWrap>
-//       <Nav>
-//       <NavLink onClick={()=>navigate('/')} style={{backgroundColor:window.location.pathname==='/'?'white':'',color:window.location.pathname==='/'?'black':'',padding:"2px 5px",borderRadius:"5px"}}>Home</NavLink>
-//         <NavLink onClick={()=>navigate('/aboutus')} style={{backgroundColor:window.location.pathname==='/aboutus'?'white':'',color:window.location.pathname==='/aboutus'?'black':'',padding:"2px 5px",borderRadius:"5px"}}>About us</NavLink>
-//         <NavLink onClick={()=>navigate('/issuesandpubs')} style={{backgroundColor:window.location.pathname==='/issuesandpubs'?'white':'',color:window.location.pathname==='/issuesandpubs'?'black':'',padding:"2px 5px",borderRadius:"5px"}}>Issues & Publications</NavLink>
-      
-//         <NavLink onClick={()=>navigate('/contactus')} style={{backgroundColor:window.location.pathname==='/contactus'?'white':'',color:window.location.pathname==='/contactus'?'black':'',padding:"2px 5px",borderRadius:"5px"}}>Contact us</NavLink>
-     
-//       </Nav>
-//     </HeaderContainer>
-//   );
-// };
-
-// export default Header;
 
 
 
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaUserCircle } from "react-icons/fa";
@@ -180,7 +102,7 @@ const DropdownItem = styled.li`
   font-size:0.8rem;
 
   &:hover {
-    background: #0077B5;
+    background: rgba(0,0,255,0.5);
     color: white;
   }
 `;
@@ -188,15 +110,61 @@ const DropdownItem = styled.li`
 const Header = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
+  const menuRef = useRef();
 
   const handleRoleSwitch = (role) => {
     setShowDropdown(false);
     if (role === "Author") {
       navigate("/authordashboard");
-    } else {
-      navigate("/editor-dashboard");
+    } else if(role==="Reveiwer"){
+      navigate('/reveiwerdashboard');
+    }
+    else {
+      navigate("/editordashboard");
     }
   };
+
+
+
+
+  // Add event listener to detect clicks outside of SideCategoryMenu2
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+            setShowDropdown(false); // Close the menu when clicking outside
+        }
+    };
+
+    if (showDropdown) {
+        document.addEventListener('mousedown', handleClickOutside);
+    } else {
+        document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+        document.removeEventListener('mousedown', handleClickOutside); // Clean up listener on component unmount
+    };
+}, [showDropdown, setShowDropdown]);
+
+
+//   // Add event listener to detect clicks outside of SideCategoryMenu2
+//   useEffect(() => {
+//     const handleClickOutside = (event) => {
+//         if (sideMenuRef.current && !sideMenuRef.current.contains(event.target)) {
+//             setMobileMenuSwitch(false); // Close the menu when clicking outside
+//         }
+//     };
+
+//     if (mobileMenuSwitch) {
+//         document.addEventListener('mousedown', handleClickOutside);
+//     } else {
+//         document.removeEventListener('mousedown', handleClickOutside);
+//     }
+
+//     return () => {
+//         document.removeEventListener('mousedown', handleClickOutside); // Clean up listener on component unmount
+//     };
+// }, [mobileMenuSwitch, setMobileMenuSwitch]);
 
   return (
     <HeaderContainer>
@@ -223,11 +191,12 @@ const Header = () => {
 
         {/* Role Switcher */}
         <RoleSelector>
-          <RoleButton onClick={() => setShowDropdown(!showDropdown)}>
+          <RoleButton onMouseEnter={() => setShowDropdown(!showDropdown)} onClick={() => setShowDropdown(!showDropdown)}>
             <FaUserCircle size={20} /> Dashboard
           </RoleButton>
-          <DropdownMenu show={showDropdown}>
+          <DropdownMenu show={showDropdown} ref={menuRef}>
             <DropdownItem onClick={() => handleRoleSwitch("Author")}>Author Dashboard</DropdownItem>
+            <DropdownItem onClick={() => handleRoleSwitch("Reveiwer")}>Reveiwer Dashboard</DropdownItem>
             <DropdownItem onClick={() => handleRoleSwitch("Editor")}>Editor Dashboard</DropdownItem>
           </DropdownMenu>
         </RoleSelector>

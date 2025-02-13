@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaUser, FaFileUpload, FaSearch, FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
-import AuthorProfile from "./AuthorProfile";
+import ReveiwerProfile from "./ReveiwerProfile";
 import ManuscriptSubmission from "./ManuscriptSubmission";
 import ManuscriptTracking from "./ManuscriptTracking";
 import AuthorManuscripts from "./AuthorManuscripts";
-import { authorLogout } from "../Features/Slice";
+import { reviewerLogout } from "../Features/Slice";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 
@@ -18,7 +18,7 @@ const DashboardContainer = styled.div`
 `;
 
 const Sidebar = styled.div`
-  background: #0077B5;
+  background: gray;
   width: ${(props) => (props.open ? "250px" : "60px")};
   height: 100%;
   min-height:600px;
@@ -88,7 +88,7 @@ const ContentContainer = styled.div`
   transition: margin-left 0.3s ease-in-out;
 `;
 
-const AuthorDashboard = () => {
+const ReviewerDashboard = () => {
   const [activePage, setActivePage] = useState("profile");
   const [menuOpen, setMenuOpen] = useState(false);
   const dispatch = useDispatch();
@@ -107,7 +107,7 @@ const AuthorDashboard = () => {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.isConfirmed) {
-       dispatch(authorLogout()); // Perform the logout action
+       dispatch(reviewerLogout()); // Perform the logout action
         Swal.fire(
           'Logged Out!',
           'You have been logged out.',
@@ -125,16 +125,16 @@ const AuthorDashboard = () => {
         </MenuButton>
 
         <MenuItem open={menuOpen} onClick={() => setActivePage("profile")} style={{background:activePage==='profile'?'#005A93':''}}>
-          <FaUser /> <span>Author Profile</span>
+          <FaUser /> <span>Reveiwer Profile</span>
         </MenuItem>
 
-        <MenuItem open={menuOpen} onClick={() => setActivePage("submission")} style={{background:activePage==='submission'?'#005A93':''}}>
+        {/* <MenuItem open={menuOpen} onClick={() => setActivePage("submission")} style={{background:activePage==='submission'?'#005A93':''}}>
           <FaFileUpload /> <span>Submit Manuscript</span>
-        </MenuItem>
+        </MenuItem> */}
 
-        <MenuItem open={menuOpen} onClick={() => setActivePage("mymanuscripts")} style={{background:activePage==='mymanuscripts'?'#005A93':''}}>
+        {/* <MenuItem open={menuOpen} onClick={() => setActivePage("mymanuscripts")} style={{background:activePage==='mymanuscripts'?'#005A93':''}}>
           <FaSearch /> <span>My Submission</span>
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem open={menuOpen} onClick={handleLogout}>
           <FaSignOutAlt /> <span>Logout</span>
@@ -142,12 +142,12 @@ const AuthorDashboard = () => {
       </Sidebar>
 
       <ContentContainer open={menuOpen}>
-        {activePage === "profile" && <AuthorProfile/>}
-        {activePage === "submission" && <ManuscriptSubmission setActivePage={setActivePage}/>}
-        {activePage === "mymanuscripts" && <AuthorManuscripts setActivePage={setActivePage}/>}
+        {activePage === "profile" && <ReveiwerProfile/>}
+        {/* {activePage === "submission" && <ManuscriptSubmission setActivePage={setActivePage}/>} */}
+        {/* {activePage === "mymanuscripts" && <AuthorManuscripts setActivePage={setActivePage}/>} */}
       </ContentContainer>
     </DashboardContainer>
   );
 };
 
-export default AuthorDashboard;
+export default ReviewerDashboard;

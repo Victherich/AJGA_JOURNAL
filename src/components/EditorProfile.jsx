@@ -56,7 +56,7 @@ const EditButton = styled.button`
   }
 `;
 
-const AuthorProfile = () => {
+const EditorProfile = () => {
   const [authorData, setAuthorData] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [updatedData, setUpdatedData] = useState(null);
@@ -66,19 +66,19 @@ const AuthorProfile = () => {
   const [countryCodes, setCountryCodes] = useState([]);
 
   // Get author ID from Redux state
-  const authorInfo = useSelector((state) => state.authorInfo);
+  const editorInfo = useSelector((state) => state.editorInfo);
 
   useEffect(() => {
-    if (authorInfo?.id) {
-      fetchAuthorData(authorInfo.id);
+    if (editorInfo?.id) {
+      fetchAuthorData(editorInfo.id);
     }
     fetchCountryCodes();
-  }, [authorInfo?.id]);
+  }, [editorInfo?.id]);
 
   const fetchAuthorData = async (id) => {
     try {
       setLoading(true);
-      const response = await axios.get(`https://www.ajga-journal.org/api/get_author_by_id.php?id=${id}`);
+      const response = await axios.get(`https://www.ajga-journal.org/api/get_editor_by_id.php?id=${id}`);
 
       if (response.data.success) {
         setAuthorData(response.data.author);
@@ -115,7 +115,7 @@ const AuthorProfile = () => {
     const loadingAlert = Swal.fire({text:"Please wait..."})
     Swal.showLoading();
     try {
-      const response = await axios.post(`https://www.ajga-journal.org/api/update_author.php`, updatedData);
+      const response = await axios.post(`https://www.ajga-journal.org/api/update_editor.php`, updatedData);
       
       if (response.data.success) {
         setMessage("Profile updated successfully!");
@@ -132,14 +132,14 @@ const AuthorProfile = () => {
     }
   };
 
-  if (loading) return <p>Loading author details...</p>;
+  if (loading) return <p>Loading editor details...</p>;
   if (error) return <p style={{ color: "red" }}>{error}</p>;
   // if (message) return <p style={{ color: "green" }}>{message}</p>;
 
   return (
     <ProfileContainer>
       <ProfileCard>
-        <h2 style={{color:"#0077B5"}}>Author Profile</h2>
+        <h2 style={{color:"#0077B5"}}>Editor Profile</h2>
 
         <InputField>
           <FaUser />
@@ -188,5 +188,5 @@ const AuthorProfile = () => {
   );
 };
 
-export default AuthorProfile;
+export default EditorProfile;
 

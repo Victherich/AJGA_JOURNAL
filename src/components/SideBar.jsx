@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { 
   FaBook, FaFlask, FaHistory, FaNewspaper, FaAngleDown, FaAngleRight,
@@ -7,6 +7,7 @@ import {
   FaMusic, FaUtensils, FaGlobe, FaDragon, FaSeedling, FaSkullCrossbones, 
   FaRecycle, FaShieldAlt, FaGlobeAmericas
 } from "react-icons/fa";
+import { Context } from "./Context";
 
 
 
@@ -85,6 +86,7 @@ const IssueItem = styled.li`
 
 const Sidebar = () => {
   const [expandedYear, setExpandedYear] = useState(null);
+  const {categories}=useContext(Context);
 
   const years = {
     2025: ["Vol 12, Issue 1", "Vol 12, Issue 2"],
@@ -92,33 +94,7 @@ const Sidebar = () => {
     2023: ["Vol 10, Issue 1", "Vol 10, Issue 2"],
   };
 
-  const categories = [
-    { id: 1, name: "Agricultural Sciences (Crop, Livestock, Biotechnology)", icon: <FaSeedling /> },
-    { id: 2, name: "Environmental Toxicology & Pollution Control", icon: <FaSkullCrossbones /> },
-    { id: 3, name: "Bioremediation & Environmental Management", icon: <FaRecycle /> },
-    { id: 4, name: "Food Safety, Health & Biosecurity", icon: <FaShieldAlt /> },
-    { id: 5, name: "Climate Change & Sustainable Development", icon: <FaGlobeAmericas /> },
-    // { id: 6, name: "Science & Technology", icon: <FaFlask /> },
-    // { id: 7, name: "History & Culture", icon: <FaHistory /> },
-    // { id: 8, name: "Business & Economics", icon: <FaBook /> },
-    // { id: 9, name: "Current Affairs", icon: <FaNewspaper /> },
-    // { id: 10, name: "Health & Medicine", icon: <FaHeartbeat /> },
-    // { id: 11, name: "Education & Research", icon: <FaGraduationCap /> },
-    // { id: 12, name: "Environmental Studies", icon: <FaLeaf /> },
-    // { id: 13, name: "Artificial Intelligence", icon: <FaRobot /> },
-    // { id: 14, name: "Psychology & Behavior", icon: <FaBrain /> },
-    // { id: 15, name: "Space & Astronomy", icon: <FaSatellite /> },
-    // { id: 16, name: "Engineering & Innovation", icon: <FaTools /> },
-    // { id: 17, name: "Arts & Literature", icon: <FaPalette /> },
-    // { id: 18, name: "Philosophy & Ethics", icon: <FaBalanceScale /> },
-    // { id: 19, name: "Social Sciences", icon: <FaUsers /> },
-    // { id: 20, name: "Law & Governance", icon: <FaGavel /> },
-    // { id: 21, name: "Sports & Recreation", icon: <FaFutbol /> },
-    // { id: 22, name: "Music & Performing Arts", icon: <FaMusic /> },
-    // { id: 23, name: "Food & Nutrition", icon: <FaUtensils /> },
-    // { id: 24, name: "Travel & Geography", icon: <FaGlobe /> },
-    // { id: 25, name: "Mythology & Folklore", icon: <FaDragon /> }
-];
+
 
 
   return (

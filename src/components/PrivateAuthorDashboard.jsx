@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom'
 
 const PrivateAuthorDashboard = () => {
-    const [userToken,setUserToken]=useState(false)
+ 
+    const authorToken = useSelector(state=>state.authorToken)
   return (
   
-      userToken?<Outlet/>:<Navigate to='/authorlogin'/>
+      authorToken?<Outlet/>:<Navigate to='/authorlogin'/>
    
   )
 }

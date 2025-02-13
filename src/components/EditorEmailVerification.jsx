@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import styled from "styled-components";
-import bg from '../Images/514.jpg'
-
+import bg from '../Images/6420.jpg'
 // Styled Components for UI
 const Container = styled.div`
   display: flex;
@@ -11,7 +10,7 @@ const Container = styled.div`
   align-items: center;
   height: 100vh;
   background-color: #f4f4f9;
- background-image:url(${bg});
+background-image:url(${bg});
  background-size: cover;
  position:relative;
 
@@ -24,7 +23,6 @@ const Container = styled.div`
     height: 100%;
     background-color: rgba(255, 255, 255, 0.7);
   }
-
 
 
 
@@ -68,7 +66,7 @@ const Button = styled.button`
   }
 `;
 
-const AuthorEmailVerification = () => {
+const EditorEmailVerification = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoading, setIsLoading] = useState(true);
@@ -95,13 +93,14 @@ const AuthorEmailVerification = () => {
     });
 
     try {
-      const response = await fetch("https://www.ajga-journal.org/api/author_verify_email.php", {
+      const response = await fetch("https://www.ajga-journal.org/api/editor_verify_email.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ token }),
       });
 
       const result = await response.json();
+      console.log(result);
 
       if (result.success) {
         Swal.fire({
@@ -112,7 +111,7 @@ const AuthorEmailVerification = () => {
         }).then(() => {
           // Redirect to login after success
         });
-        navigate("/authorlogin"); 
+        navigate("/editorlogin"); 
       } else {
         Swal.fire({
           icon: "error",
@@ -137,7 +136,7 @@ const AuthorEmailVerification = () => {
   return (
     <Container>
       <Card>
-        <h1>Author Email Verification</h1>
+        <h1>Editor Email Verification</h1>
         <Button onClick={verifyEmail}>Click to Verify</Button>
    
       </Card>
@@ -145,4 +144,4 @@ const AuthorEmailVerification = () => {
   );
 };
 
-export default AuthorEmailVerification;
+export default EditorEmailVerification;
