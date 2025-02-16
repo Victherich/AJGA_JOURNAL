@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaUser, FaFileUpload, FaSearch, FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
-import ReveiwerProfile from "./ReveiwerProfile";
+import { FaUser, FaFileUpload, FaSearch, FaBars, FaTimes, FaSignOutAlt, FaFileAlt } from "react-icons/fa";
+import ReviewerProfile from "./ReviewerProfile";
 import ManuscriptSubmission from "./ManuscriptSubmission";
 import ManuscriptTracking from "./ManuscriptTracking";
 import AuthorManuscripts from "./AuthorManuscripts";
 import { reviewerLogout } from "../Features/Slice";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
+import ManuscriptsAssignedtoReviewer from "./ManuscriptsAssignedtoReviewer";
+import SearchComponent from "./SearchComponent";
 
 
 const DashboardContainer = styled.div`
@@ -128,13 +130,13 @@ const ReviewerDashboard = () => {
           <FaUser /> <span>Reveiwer Profile</span>
         </MenuItem>
 
-        {/* <MenuItem open={menuOpen} onClick={() => setActivePage("submission")} style={{background:activePage==='submission'?'#005A93':''}}>
-          <FaFileUpload /> <span>Submit Manuscript</span>
-        </MenuItem> */}
+        <MenuItem open={menuOpen} onClick={() => setActivePage("assignedmanuscript")} style={{background:activePage==='assignedmanuscript'?'#005A93':''}}>
+          <FaFileAlt /> <span>Assigned Manuscripts</span>
+        </MenuItem>
 
-        {/* <MenuItem open={menuOpen} onClick={() => setActivePage("mymanuscripts")} style={{background:activePage==='mymanuscripts'?'#005A93':''}}>
-          <FaSearch /> <span>My Submission</span>
-        </MenuItem> */}
+        <MenuItem open={menuOpen} onClick={() => setActivePage("searchmanuscripts")} style={{background:activePage==='searchmanuscripts'?'#005A93':''}}>
+          <FaSearch /> <span>Search Manuscripts</span>
+        </MenuItem>
 
         <MenuItem open={menuOpen} onClick={handleLogout}>
           <FaSignOutAlt /> <span>Logout</span>
@@ -142,9 +144,9 @@ const ReviewerDashboard = () => {
       </Sidebar>
 
       <ContentContainer open={menuOpen}>
-        {activePage === "profile" && <ReveiwerProfile/>}
-        {/* {activePage === "submission" && <ManuscriptSubmission setActivePage={setActivePage}/>} */}
-        {/* {activePage === "mymanuscripts" && <AuthorManuscripts setActivePage={setActivePage}/>} */}
+        {activePage === "profile" && <ReviewerProfile/>}
+        {activePage === "assignedmanuscript" && <ManuscriptsAssignedtoReviewer setActivePage={setActivePage}/>}
+        {activePage === "searchmanuscripts" && <SearchComponent setActivePage={setActivePage}/>}
       </ContentContainer>
     </DashboardContainer>
   );

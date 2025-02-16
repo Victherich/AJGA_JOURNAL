@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaUser, FaFileUpload, FaSearch, FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
+import { FaUser, FaFileUpload, FaSearch, FaBars, FaTimes, FaSignOutAlt, FaFileAlt } from "react-icons/fa";
 import AuthorProfile from "./AuthorProfile";
 import ManuscriptSubmission from "./ManuscriptSubmission";
 import ManuscriptTracking from "./ManuscriptTracking";
@@ -15,19 +15,24 @@ const DashboardContainer = styled.div`
   background: #f4f4f4;
   padding-top:70px;
   justify-content:center;
+  // height:100vh;
+  // overflow-y:scroll;
 `;
 
 const Sidebar = styled.div`
-  background: #0077B5;
+  // background: #0077B5;
+  background:rgba(0,0,0,0.3);
   width: ${(props) => (props.open ? "250px" : "60px")};
-  height: 100%;
-  min-height:600px;
+  // height: 100%;
+  // min-height:600px;
   transition: width 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
-  z-index: 10;
+  // z-index: 10;
+  position:fixed;
+  right:0px;
 `;
 
 const MenuButton = styled.div`
@@ -57,6 +62,7 @@ const MenuItem = styled.div`
   border-radius: 5px;
   transition: 0.3s;
   font-size: 1rem;
+   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
 
   &:hover {
     background: #005A93;
@@ -133,7 +139,7 @@ const AuthorDashboard = () => {
         </MenuItem>
 
         <MenuItem open={menuOpen} onClick={() => setActivePage("mymanuscripts")} style={{background:activePage==='mymanuscripts'?'#005A93':''}}>
-          <FaSearch /> <span>My Submission</span>
+          <FaFileAlt/> <span>My Submission</span>
         </MenuItem>
 
         <MenuItem open={menuOpen} onClick={handleLogout}>

@@ -1,23 +1,21 @@
-
-
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaEnvelope, FaLock, FaSignInAlt,FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEnvelope, FaLock, FaSignInAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { editorLogin } from "../Features/Slice";
+import { reviewerLogin } from "../Features/Slice";
 import { useDispatch } from "react-redux";
-import bg from '../Images/6420.jpg'
+import bg from '../Images/1717.jpg';
 
 const LoginContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-   background-color: #f4f4f9;
-   background-image:url(${bg});
- background-size: cover;
- position:relative;
+  background-color: #f4f4f9;
+  background-image: url(${bg});
+  background-size: cover;
+  position: relative;
 
   &::before {
     content: "";
@@ -28,21 +26,16 @@ const LoginContainer = styled.div`
     height: 100%;
     background-color: rgba(255, 255, 255, 0.7);
   }
-
-
-
-
-
 `;
 
 const FormWrapper = styled.div`
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
   width: 400px;
   text-align: center;
-  position:relative;
+  position: relative;
 `;
 
 const InputField = styled.div`
@@ -62,14 +55,14 @@ const InputField = styled.div`
     background: transparent;
   }
 
-    .toggle-visibility {
+  .toggle-visibility {
     cursor: pointer;
     color: rgba(0, 0, 255, 0.5);
   }
 `;
 
 const SubmitButton = styled.button`
-  background: rgba(0,0,255,0.5);
+  background: rgba(0, 0, 255, 0.5);
   color: white;
   border: none;
   padding: 10px;
@@ -80,7 +73,7 @@ const SubmitButton = styled.button`
   font-size: 1rem;
 
   &:hover {
-    background: rgba(0,0,255,0.7);
+    background: rgba(0, 0, 255, 0.7);
   }
 `;
 
@@ -89,18 +82,17 @@ const SwitchText = styled.p`
   font-size: 0.9rem;
 
   a {
-    color: rgba(0,0,255,0.7);
+    color: rgba(0, 0, 255, 0.7);
     cursor: pointer;
     text-decoration: underline;
   }
 `;
 
-const EditorLogin = () => {
+const ReviewerLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
-   const [showPassword, setShowPassword] = useState(false);
-  
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -120,7 +112,7 @@ const EditorLogin = () => {
     });
 
     try {
-      const response = await fetch("https://www.ajga-journal.org/api/editor_login.php", {
+      const response = await fetch("https://www.ajga-journal.org/api/reviewer_login.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -133,21 +125,18 @@ const EditorLogin = () => {
           icon: "success",
           title: "Login Successful!",
           text: "Welcome back, " + result.user.full_name,
-        }).then((result)=>{
-          if(result.isConfirmed){
-            navigate("/editordashboard");
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate("/reviewerdashboard");
           }
-        })
+        });
 
-       
         dispatch(
-          editorLogin({
-            editorInfo: result.user,
-            editorToken: result.token,
+          reviewerLogin({
+            reviewerInfo: result.user,
+            reviewerToken: result.token,
           })
         );
-        
-
       } else {
         Swal.fire({
           icon: "error",
@@ -168,19 +157,31 @@ const EditorLogin = () => {
   return (
     <LoginContainer>
       <FormWrapper>
-        <h2 style={{ color: "rgba(0,0,255,0.5)" }}>Editor Login</h2>
+        <h2 style={{ color: "rgba(0,0,255,0.5)" }}>Reviewer Login</h2>
         <form onSubmit={handleSubmit}>
           <InputField>
             <FaEnvelope style={{ color: "rgba(0,0,255,0.5)" }} />
-            <input type="email" name="email" placeholder="Email Address" required onChange={handleChange} />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              required
+              onChange={handleChange}
+            />
           </InputField>
 
           <InputField>
             <FaLock style={{ color: "rgba(0,0,255,0.5)" }} />
-            <input type={showPassword ? "text" : "password"} name="password" placeholder="Enter Password" required onChange={handleChange} />
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Enter Password"
+              required
+              onChange={handleChange}
+            />
             <span className="toggle-visibility" onClick={() => setShowPassword(!showPassword)}>
-                          {showPassword ? <FaEyeSlash /> : <FaEye />}
-                        </span>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </span>
           </InputField>
 
           <SubmitButton type="submit">
@@ -188,17 +189,16 @@ const EditorLogin = () => {
           </SubmitButton>
         </form>
 
-        {/* <SwitchText>
-          Don't have an Editor account? <a onClick={() => navigate('/editorsignup')}>Sign Up</a>
-        </SwitchText> */}
+        <SwitchText>
+          Don't have a Reviewer account? <a onClick={() => navigate('/reviewersignup')}>Sign Up</a>
+        </SwitchText>
 
         <SwitchText>
-          <a onClick={() => navigate('/editorforgotpassword')}>Forgot Password </a>
+          <a onClick={() => navigate('/reviewerforgotpassword')}>Forgot Password</a>
         </SwitchText>
       </FormWrapper>
     </LoginContainer>
   );
 };
 
-export default EditorLogin;
-
+export default ReviewerLogin;

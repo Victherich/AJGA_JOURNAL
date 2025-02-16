@@ -1,14 +1,16 @@
 
+
+
 import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import ManuscriptDetailModal from "./ManuscriptDetailModal"; 
+import ManuscriptDetailModal from "./ManuscriptDetailModal"; // Import the modal component
 import Swal from "sweetalert2";
+import PayManuscriptAPC from "./PayManuscriptAPC";
 import { Context } from "./Context";
 import CommentComponent from "./CommentComponent";
-import { useLocation } from "react-router-dom";
-import axios from 'axios'
-import FilterAndSearchComponent from "./FilterAndSearchComponent";
+import axios from 'axios';
+
 
 const Container = styled.div`
   padding: 20px;
@@ -45,7 +47,6 @@ const TdValue = styled.td`
   padding: 10px;
 `;
 
-
 const StatusBadge = styled.span`
   padding: 5px 10px;
   border-radius: 5px;
@@ -74,32 +75,16 @@ const StatusBadge = styled.span`
 `;
 
 const ViewButton = styled.button`
-  background: rgba(0,0,255,0.5);
+  background: #0077B5;
   color: white;
   border: none;
   padding: 8px 12px;
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
-  margin-left: 5px;
 
   &:hover {
-    background: rgba(0,0,255,0.7);
-  }
-`;
-
-const AssignButton = styled.button`
-  background: rgba(0,0,255,0.5);
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: 0.3s;
-  margin-left: 5px;
-
-  &:hover {
-    background: rgba(0,0,255,0.7);
+    background: #005A93;
   }
 `;
 
@@ -111,32 +96,27 @@ const Select = styled.select`
 `
 
 
-const AllSubmittedManuscripts = ({ setActivePage }) => {
-  const authorId = useSelector((state) => state.authorInfo.id);
+const ManuscriptsAssignedtoReviewer = ({ setActivePage }) => {
+  const reviewerId = useSelector((state) => state.reviewerInfo.id);
+  const reviewer = useSelector((state) => state.reviewerInfo);
   const [manuscripts, setManuscripts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedManuscript, setSelectedManuscript] = useState(null);
+  const [selectedManuscript, setSelectedManuscript] = useState(null); // State for modal
   const { categories, status } = useContext(Context);
-  const [reviewers, setReviewers] = useState([]); 
-  const [selectedReviewers, setSelectedReviewers] = useState({}); 
-const location = useLocation();
-// const [reviewers, setReviewers] = useState([]);
-const [reviewerData,setReviewerData]=useState(null);
 const [statusData, setStatusData]=useState('')
 
-
-
+  
     const fetchManuscripts = async () => {
       try {
         const response = await fetch(
-          `https://www.ajga-journal.org/api/get_all_manuscripts.php`,
-          { cache: "no-store" }
+          `https://www.ajga-journal.org/api/get_manuscripts_assigned_to_a_reviewer.php?reviewer_id=${reviewerId}`,
+          { cache: "no-store" } // Prevent caching
         );
         const data = await response.json();
 
         if (data.success) {
           setManuscripts(data.manuscripts);
-          console.log(data.manuscripts)
+          console.log(data.manuscripts);
         } else {
           console.error(data.error);
         }
@@ -147,31 +127,15 @@ const [statusData, setStatusData]=useState('')
       }
     };
 
-    const fetchReviewers = async () => {
-      try {
-        const response = await fetch("https://www.ajga-journal.org/api/get_reviewers.php");
-        const data = await response.json();
-
-        if (data.success) {
-          setReviewers(data.reviewers);
-        } else {
-          console.error(data.error);
-        }
-      } catch (error) {
-        console.error("Error fetching reviewers:", error);
-      }
-    };
-
-
-
-  useEffect(() => {
+    useEffect(() => {
     fetchManuscripts();
-    fetchReviewers();
-  }, [authorId]);
+  }, [reviewerId]);
 
+  // Function to get category name from categories array
   const getCategoryName = (categoryId) => {
     const category = categories.find((cat) => cat.id == categoryId);
-    return category ? category.name : categoryId;
+    console.log(category)
+    return category ? category.name : categoryId; // Show name if found, otherwise show ID
   };
 
 
@@ -181,63 +145,6 @@ const [statusData, setStatusData]=useState('')
     console.log(statusobj)
     return statusobj ? statusobj.name : statusId; // Show name if found, otherwise show ID
   };
-
-  const handleAssign = async (manuscriptId) => {
-    const reviewerId = selectedReviewers[manuscriptId];
-    if (!reviewerId) {
-      Swal.fire("Error!", "Please select a reviewer.", "error");
-      return;
-    }
-
-    try {
-      const response = await fetch("https://www.ajga-journal.org/api/assign_manuscript_to_reviewer.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ manuscript_id: manuscriptId, reviewer_id: reviewerId }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        Swal.fire("Success!", "Reviewer assigned successfully.", "success");
-        fetchManuscripts();
-        // setReviewers([]);
-      } else {
-        Swal.fire("Error!", data.error || "Failed to assign reviewer.", "error");
-      }
-    } catch (error) {
-      Swal.fire("Error!", "Network issue or server error.", "error");
-      console.error("Error assigning reviewer:", error);
-    }
-  };
-
-
-
-  const handleUnassign = async (manuscriptId) => {
-    try {
-      const response = await fetch("https://www.ajga-journal.org/api/unassign_manuscript_from_reviewer.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ manuscript_id: manuscriptId }),
-      });
-  
-      const data = await response.json();
-  
-      if (data.success) {
-        Swal.fire("Success!", "Reviewer unassigned successfully.", "success");
-        // Optionally refresh the list or update state
-        fetchManuscripts();
-        // fetchReviewers();
-      } else {
-        Swal.fire("Error!", data.error || "Failed to unassign reviewer.", "error");
-      }
-    } catch (error) {
-      Swal.fire("Error!", "Network issue or server error.", "error");
-      console.error("Error unassigning reviewer:", error);
-    }
-  };
-  
-
 
 
   const handleOpenComments = (manuscriptId) => {
@@ -260,83 +167,8 @@ const [statusData, setStatusData]=useState('')
     }
   };
 
-  
 
 
-
-
-  
-    useEffect(() => {
-      const fetchReviewers = async () => {
-        try {
-          const response = await fetch('https://www.ajga-journal.org/api/get_all_reviewers.php');
-          const data = await response.json();
-  
-          if (data.success) {
-            setReviewers(data.reviewers);
-            // console.log(data)
-          } else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Failed to Load',
-              text: 'Unable to fetch reviewers.',
-            });
-          }
-        } catch (error) {
-          console.error('Error:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Network Error',
-            text: 'Please check your connection.',
-          });
-        }
-      };
-  
-      fetchReviewers();
-    }, []);
-
-
-
-    const [reviewerEmails, setReviewerEmails] = useState({});
-
-    const fetchReviewerData = async (id) => {
-      console.log(id)
-      try {
-        const response = await axios.get(`https://www.ajga-journal.org/api/get_reviewer_by_id.php?id=${id}`);
-    console.log(response.data)
-        if (response.data.success) {
-          setReviewerEmails(prev => ({
-            ...prev,
-            [id]: response.data.reviewer.email
-          }));
-        } else {
-          setReviewerEmails(prev => ({
-            ...prev,
-            [id]: "No reviewer assigned"
-          }));
-        }
-      } catch (err) {
-        console.error("Failed to fetch reviewer details:", err);
-        setReviewerEmails(prev => ({
-          ...prev,
-          [id]: "Error fetching email"
-        }));
-      }
-    };
-    
-
-    useEffect(() => {
-      manuscripts.forEach((manuscript) => {
-        if (manuscript.reviewer_id && !reviewerEmails[manuscript.reviewer_id]) {
-          fetchReviewerData(manuscript.reviewer_id);
-        }
-      });
-    }, [manuscripts]);
-
-
-
-
-    
   const handleUpdateStatus = async (manuscriptId) => {
     const loadingAlert = Swal.fire({text:"please wait..."})
     Swal.showLoading();
@@ -361,6 +193,9 @@ const [statusData, setStatusData]=useState('')
       loadingAlert.close();
     }
   };
+  
+  
+
   
 const [filteredArray, setFilteredArray]=useState([])
 const [statusId,setStatusId]=useState('')
@@ -390,15 +225,11 @@ useEffect(() => {
     );
   }
 
-
-
-
-
   return (
     <Container>
-      <Title> All Submitted Manuscripts</Title>
+      <Title>Your Assigned Manuscripts</Title>
 
-      <Select style={{marginBottom:"10px"}} onChange={(e)=>setStatusId(e.target.value)}>
+      <Select style={{marginBottom:"10px"}} onChange={(e)=>setStatusId(e.target.value)} value={statusId}>
         <option value="">-- Filter by status --</option>
         {status.map((stat)=>(
             <option value={stat.id} key={stat.id}>{stat.name.toUpperCase()}</option>
@@ -408,11 +239,12 @@ useEffect(() => {
          marginLeft:"5px",
          backgroundColor:"red", 
          border:"none",color:"white", padding:"5px", borderRadius:"5px"}} onClick={()=>setStatusId("")}>Cancel filter</button>}
-      
+    
+
+
       {manuscripts.length === 0 ? (
         <p>No manuscripts found.</p>
       ) : (
-
         filteredArray.map((manuscript) => (
           <TableContainer key={manuscript.id}>
             <Table>
@@ -437,12 +269,11 @@ useEffect(() => {
                   <TdLabel>Category:</TdLabel>
                   <TdValue>{getCategoryName(manuscript.article_category)}</TdValue>
                 </tr>
-            
                 <tr>
                   <TdLabel>Status:</TdLabel>
                   <TdValue>
                     <StatusBadge status={manuscript.status}>
-                    {getStatusName(manuscript.status)?.toUpperCase()}
+                      {getStatusName(manuscript.status)?.toUpperCase()}
                     </StatusBadge>
                   </TdValue>
                 </tr>
@@ -457,48 +288,21 @@ useEffect(() => {
                 <tr>
                   <TdLabel>Action:</TdLabel>
                   <TdValue>
-                    <ViewButton onClick={() => setSelectedManuscript(manuscript)}>
+                    <ViewButton
+                      onClick={() => setSelectedManuscript(manuscript)}
+                    >
                       View Details
                     </ViewButton>
-                   {manuscript.reviewer_id===null&& <select style={{padding:"7px",cursor:"pointer",marginLeft:"5px",outline:"none"}}
-                      value={selectedReviewers[manuscript.id] || ""}
-                      onChange={(e) =>
-                        setSelectedReviewers((prev) => ({
-                          ...prev,
-                          [manuscript.id]: e.target.value,
-                        }))
-                      }
-                    >
-                      <option value="">Select Reviewer</option>
-                      {reviewers.map((reviewer) => (
-                        <option key={reviewer.id} value={reviewer.id}>
-                          {reviewer.email}
-                        </option>
-                      ))}
-                    </select>}
-                    {manuscript.reviewer_id===null&&<AssignButton onClick={() => handleAssign(manuscript.id)}>
-                      Assign
-                    </AssignButton>}
-                    {manuscript.reviewer_id!==null&&<AssignButton onClick={() => handleUnassign(manuscript.id)}>
-                      UnAssign
-                    </AssignButton>}
-                    <ViewButton onClick={() => handleOpenComments(manuscript.id)}>
+                   
+                   
+
+
+<ViewButton onClick={() => handleOpenComments(manuscript.id)} style={{marginLeft:"5px"}}>
                       Comments
                     </ViewButton>
-                    <p
-                        style={{
-                          color: "rgba(0, 0, 255, 0.7)",
-                          fontWeight: "bold",
-                          marginTop: "10px",
-                        }}
-                      >
-                        {/* Assigned to: {fetchReviewerData(manuscript.reviewer_id)}  */}
-                        {/* Assigned to: {reviewerEmails} */}
-                        Assigned to: {reviewerEmails[manuscript.reviewer_id] || "none"}
-                        
-                      </p>
 
-                      <p>Update status:</p>
+
+                    <p>Update status:</p>
                     <Select onChange={(e)=>setStatusData(e.target.value)}>
                       <option>-- Select Status --</option>
                       {status.map((stat)=>(
@@ -509,17 +313,19 @@ useEffect(() => {
                     <ViewButton onClick={()=>handleUpdateStatus(manuscript.id)} style={{marginLeft:"5px"}}>
                       Click to Update Status
                     </ViewButton>
+
+
+                    
                   </TdValue>
                 </tr>
               </tbody>
             </Table>
-
             {manuscript.comment&&<CommentComponent manuscriptId={manuscript.id} handleCloseComments={handleCloseComments}/>}
-
           </TableContainer>
         ))
       )}
 
+      {/* Render the modal when a manuscript is selected */}
       {selectedManuscript && (
         <ManuscriptDetailModal
           manuscript={selectedManuscript}
@@ -530,4 +336,7 @@ useEffect(() => {
   );
 };
 
-export default AllSubmittedManuscripts;
+export default ManuscriptsAssignedtoReviewer;
+
+
+

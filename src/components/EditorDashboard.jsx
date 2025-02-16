@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { FaUser, FaFileUpload, FaSearch, FaBars, FaTimes, FaSignOutAlt } from "react-icons/fa";
+import { FaUser, FaFileUpload, FaSearch, FaBars, FaTimes, FaSignOutAlt, FaFileAlt, FaRegAddressBook, FaUsers, FaUpload, FaBookOpen } from "react-icons/fa";
 import EditorProfile from "./EditorProfile";
 import ManuscriptSubmission from "./ManuscriptSubmission";
 import ManuscriptTracking from "./ManuscriptTracking";
@@ -9,6 +9,11 @@ import { editorLogout } from "../Features/Slice";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import AllSubmittedManuscripts from "./AllSubmittedManuscripts";
+import EditorSignUp from "./EditorSignUp";
+import AllReviewers from "./AllReviewers";
+import SearchComponent from "./SearchComponent";
+import PublishArticle from "./PublishArticle";
+import PublishedArticles from "./PublishedArticles";
 
 
 const DashboardContainer = styled.div`
@@ -130,12 +135,28 @@ const EditorDashboard = () => {
         </MenuItem>
 
         <MenuItem open={menuOpen} onClick={() => setActivePage("submission")} style={{background:activePage==='submission'?'#005A93':''}}>
-          <FaFileUpload /> <span>Submitted Manuscripts</span>
+          <FaFileAlt /> <span>Submitted Manuscripts</span>
         </MenuItem>
 
-        {/* <MenuItem open={menuOpen} onClick={() => setActivePage("mymanuscripts")} style={{background:activePage==='mymanuscripts'?'#005A93':''}}>
-          <FaSearch /> <span>My Submission</span>
-        </MenuItem> */}
+        <MenuItem open={menuOpen} onClick={() => setActivePage("searchmanuscripts")} style={{background:activePage==='searchmanuscripts'?'#005A93':''}}>
+                  <FaSearch /> <span>Search Manuscripts</span>
+                </MenuItem>
+
+                <MenuItem open={menuOpen} onClick={() => setActivePage("publisharticle")} style={{background:activePage==='publisharticle'?'#005A93':''}}>
+                  <FaUpload /> <span>Publish Article</span>
+                </MenuItem>
+
+                <MenuItem open={menuOpen} onClick={() => setActivePage("publishedarticles")} style={{background:activePage==='publishedarticles'?'#005A93':''}}>
+                  <FaBookOpen /> <span>Published Articles</span>
+                </MenuItem>
+
+        <MenuItem open={menuOpen} onClick={() => setActivePage("allreviewers")} style={{background:activePage==='allreviewers'?'#005A93':''}}>
+          <FaUsers /> <span>All Reviewers</span>
+        </MenuItem>
+
+        <MenuItem open={menuOpen} onClick={() => setActivePage("register")} style={{background:activePage==='register'?'#005A93':''}}>
+          <FaRegAddressBook /> <span>Register an Editor</span>
+        </MenuItem>
 
         <MenuItem open={menuOpen} onClick={handleLogout}>
           <FaSignOutAlt /> <span>Logout</span>
@@ -145,7 +166,11 @@ const EditorDashboard = () => {
       <ContentContainer open={menuOpen}>
         {activePage === "profile" && <EditorProfile/>}
         {activePage === "submission" && <AllSubmittedManuscripts setActivePage={setActivePage}/>}
-        {/* {activePage === "mymanuscripts" && <AuthorManuscripts setActivePage={setActivePage}/>} */}
+        {activePage === "register" && <EditorSignUp setActivePage={setActivePage}/>}
+        {activePage === "allreviewers" && <AllReviewers setActivePage={setActivePage}/>}
+        {activePage === "searchmanuscripts" && <SearchComponent setActivePage={setActivePage}/>}
+        {activePage === "publisharticle" && <PublishArticle setActivePage={setActivePage}/>}
+        {activePage === "publishedarticles" && <PublishedArticles setActivePage={setActivePage}/>}
       </ContentContainer>
     </DashboardContainer>
   );

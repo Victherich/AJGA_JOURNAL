@@ -32,6 +32,18 @@ import EditorLogin from './components/EditorLogin';
 import EditorForgotPassword from './components/EditorForgotPassword';
 import EditorResetPassword from './components/EditorResetPassword';
 import EditorEmailVerification from './components/EditorEmailVerification';
+import PrivateReviewerDashboard from './components/PrivateReviewerDashboard';
+import ReviewerDashboard from './components/ReviewerDashboard';
+import PrivateReviewerSignup from './components/PrivateReviewerSignup';
+
+import PrivateReviewerLogin from './components/PrivateReviewerLogin';
+import ReviewerLogin from './components/ReviewerLogin';
+import ReviewerForgotPassword from './components/ReviewerForgotPassword';
+import ReviewerResetPassword from './components/ReviewerResetPassword';
+import ReviewerEmailVerification from './components/ReviewerEmailVerification';
+import ReviewerSignUp from './components/ReviewerSignup';
+import PublicationDetail from './components/PublicationDetail';
+
 
 
 function App() {
@@ -46,9 +58,10 @@ function App() {
       {/* public pages */}
       <Route path='/' element={<LandingPage/>}/>
       <Route path='/aboutus' element={<AboutUs/>}/>
-      <Route path='/issuesandpubs' element={<ArchivesPage/>}/>
+      <Route path='/issuesandpubs/:articleCategory' element={<ArchivesPage/>}/>
       <Route path="/contactus" element={<ContactSupport/>}/>
       <Route path='/publishingpolicy' element={<PublishingPolicies/>}/>
+      <Route path='/publicationdetail/:id' element={<PublicationDetail/>}/>
   
 
 {/* author pages */}
@@ -77,7 +90,7 @@ function App() {
       </Route>
 
       <Route path='/editorsignup' element={<PrivateEditorSignup/>}>
-        <Route path='' element={<EditorSignUp/>}/>
+        {/* <Route path='' element={<EditorSignUp/>}/> */}
       </Route>
 
       <Route path='/editorlogin' element={<PrivateEditorLogin/>}>
@@ -89,6 +102,23 @@ function App() {
       <Route path='/editor-reset-password/:token' element={<EditorResetPassword/>}/>
 
 
+{/* reviewer pages */}
+
+<Route path='/reviewerdashboard' element={<PrivateReviewerDashboard/>}>
+  <Route path='' element={<ReviewerDashboard/>}/>
+</Route>
+
+<Route path='/reviewersignup' element={<PrivateReviewerSignup/>}>
+  <Route path='' element={<ReviewerSignUp/>}/>
+</Route>
+
+<Route path='/reviewerlogin' element={<PrivateReviewerLogin/>}>
+  <Route path='' element={<ReviewerLogin/>}/>
+</Route>
+
+<Route path='/reviewerverifyemail/:token' element={<ReviewerEmailVerification/>}/>
+<Route path='/reviewerforgotpassword' element={<ReviewerForgotPassword/>}/>
+<Route path='/reviewer-reset-password/:token' element={<ReviewerResetPassword/>}/>
 
 
 

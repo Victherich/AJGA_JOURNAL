@@ -58,22 +58,30 @@ const StatusBadge = styled.span`
   border-radius: 5px;
   font-weight: bold;
   color: white;
-  background: ${(props) => {
+ background: ${(props) => {
     switch (props.status) {
-      case "Accepted":
-        return "green";
-      case "Rejected":
-        return "red";
-      case "Revisions Requested":
-        return "purple";
-      default:
+      case "1": // submitted
         return "orange";
+      case "2": // assigned for review
+        return "blue";
+      case "3": // under review
+        return "purple";
+      case "4": // reviewed
+        return "gold";
+      case "5": // accepted
+        return "green";
+      case "6": // published
+        return "teal";
+      case "7": // rejected
+        return "red";
+      default:
+        return "gray";
     }
   }};
 `;
 
 const ManuscriptDetailModal = ({ manuscript, onClose }) => {
-const {categories} = useContext(Context);
+const {categories, status} = useContext(Context);
 
   // Function to get category name from categories array
   const getCategoryName = (categoryId) => {
@@ -81,6 +89,19 @@ const {categories} = useContext(Context);
     console.log(category)
     return category ? category.name : categoryId; // Show name if found, otherwise show ID
   };
+
+
+
+    // Function to get status name from status array
+    const getStatusName = (statusId) => {
+      const statusobj = status.find((stat) => stat.id == statusId);
+      console.log(statusobj)
+      return statusobj ? statusobj.name : statusId; // Show name if found, otherwise show ID
+    };
+
+
+
+
 
   if (!manuscript) return null;
 
@@ -92,9 +113,9 @@ const {categories} = useContext(Context);
         <p><strong>Title:</strong> {manuscript.title}</p>
         <p><strong>Article Code:</strong> {manuscript.article_code}</p>
         <p><strong>Category:</strong> {getCategoryName(manuscript.article_category)}</p>
-        <p><strong>Status:</strong> <StatusBadge status={manuscript.status}>{manuscript.status}</StatusBadge></p>
+        <p><strong>Status:</strong> <StatusBadge status={manuscript.status}>{getStatusName(manuscript.status)?.toUpperCase()}</StatusBadge></p>
         <p><strong>Submitted Date:</strong> {manuscript.submittedDate}</p>
-        <p><strong>Last Updated:</strong> {manuscript.lastUpdated}</p>
+        {/* <p><strong>Last Updated:</strong> {manuscript.lastUpdated}</p> */}
         <p><strong>File:</strong> <a href={`https://www.ajga-journal.org/api/${manuscript.file_path}`} target="_blank" rel="noopener noreferrer">Download File</a></p>
         <h4>Abstract:</h4>
         <span>{manuscript.abstract}</span>

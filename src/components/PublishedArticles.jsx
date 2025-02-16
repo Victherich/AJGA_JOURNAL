@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import styled, { keyframes } from "styled-components";
-import { FaSearch, FaDownload, FaFilePdf, FaFileAlt, FaNewspaper } from "react-icons/fa";
+import { FaSearch, FaDownload, FaFilePdf, FaFileAlt, FaNewspaper, FaTrashAlt } from "react-icons/fa";
 import Hero4 from "./Hero4";
 import Sidebar from "./SideBar";
 import Swal from "sweetalert2";
@@ -12,15 +12,15 @@ import { Context } from "./Context";
 import logo from '../Images/logo.png'
 
 // **Typing Animation**
-const TypingContainer = styled.h2`
-  font-size: 1.2rem;
+const PageTitle = styled.h2`
+  font-size: 1.5rem;
   color: rgba(0, 0, 255, 0.5);
   // color:#555;
   white-space: nowrap;
   overflow: hidden;
-  border-right: 3px solid rgba(0, 0, 255, 0.7); /* Cursor effect */
+//   border-right: 3px solid rgba(0, 0, 255, 0.7); /* Cursor effect */
   width: fit-content;
-  animation: blinkCursor 0.8s steps(2, start) infinite;
+//   animation: blinkCursor 0.8s steps(2, start) infinite;
   text-align:center;
   margin:0 auto;
   text-wrap:wrap;
@@ -41,7 +41,7 @@ const fadeIn = keyframes`
 // **Styled Components**
 const Container = styled.div`
   font-family: "Arial", sans-serif;
-  background-color: white;
+//   background-color: white;
   color: rgba(0, 0, 255, 0.5);
   padding: 20px;
   padding-bottom:100px;
@@ -176,29 +176,29 @@ const TitleWrap = styled.div`
   gap:10px;
 `
 
-const ArchivesPage = () => {
+const PublishedArticles = () => {
   const [typedText, setTypedText] = useState(""); // Typing effect state
   const fullText = "We are a world-class journal and you can browse past and current issues of our journal in any category.";
   const [publications, setPublications] = useState([]);
   const [titleShow, setTitleShow] = useState(false);
-  const {articleCategory}=useParams();
+  const articleCategory=0;
   const {categories}=useContext(Context)
   const navigate = useNavigate();
   const [authors, setAuthors] = useState([]);
   const [searchTerm, setSearchTerm]=useState('')
 
-  useEffect(() => {
-    let index = 0;
-    const interval = setInterval(() => {
-      if (index < fullText.length) {
-        setTypedText(fullText.substring(0, index + 1));
-        index++;
-      } else {
-        clearInterval(interval);
-      }
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
+//   useEffect(() => {
+//     let index = 0;
+//     const interval = setInterval(() => {
+//       if (index < fullText.length) {
+//         setTypedText(fullText.substring(0, index + 1));
+//         index++;
+//       } else {
+//         clearInterval(interval);
+//       }
+//     }, 100);
+//     return () => clearInterval(interval);
+//   }, []);
 
 
 
@@ -307,19 +307,63 @@ const ArchivesPage = () => {
 
 
 
+ // **Delete Publication Function**
+ const deletePublication = async (publicationId) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          Swal.fire({
+            title: "Deleting...",
+            text: "Please wait...",
+            allowOutsideClick: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+          });
+
+          const response = await fetch("https://www.ajga-journal.org/api/delete_publication.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ publication_id: publicationId }),
+          });
+
+          const data = await response.json();
+
+          if (data.success) {
+            Swal.fire("Deleted!", "The publication has been deleted.", "success");
+            setPublications((prev) => prev.filter((m) => m.id !== publicationId));
+          } else {
+            Swal.fire("Error!", data.error || "Failed to delete publication.", "error");
+          }
+        } catch (error) {
+          Swal.fire("Error!", "Network issue or server error.", "error");
+          console.error("Error deleting publication:", error);
+        }
+      }
+    });
+  };
+
 
 
   return (
     <>
-      <Hero4 />
-      <Div1>
-        <Div2>
+      {/* <Hero4 /> */}
+      {/* <Div1> */}
+        {/* <Div2>
         <Sidebar/>
-        </Div2>
-      <Div3>
+        </Div2> */}
+      {/* <Div3> */}
       <Container>
         <Header>
-          <TypingContainer>{typedText}</TypingContainer>
+          <PageTitle>Published Articles</PageTitle>
         </Header>
 
         <SearchBarContainer>
@@ -361,14 +405,11 @@ const ArchivesPage = () => {
                   <FaNewspaper size={20}  />
                   View Publication
                 </CardButton>
-                {/* <CardButton href="#" target="_blank">
-                  <FaFileAlt size={20} />
-                  View HTML
-                </CardButton> */}
-                {/* <CardButton href="#" target="_blank">
-                  <FaFilePdf size={20} />
-                  DOI Link
-                </CardButton> */}
+                <CardButton onClick={()=>deletePublication(publication.id)} >
+                  <FaTrashAlt size={20}  />
+                  Delete Publication
+                </CardButton>
+      
               </CardActions>
               </ArchiveCard>
             ))}
@@ -378,11 +419,11 @@ const ArchivesPage = () => {
 
    
       </Container>
-      </Div3>
+      {/* </Div3> */}
       
-      </Div1>
+      {/* </Div1> */}
     </>
   );
 };
 
-export default ArchivesPage;
+export default PublishedArticles;

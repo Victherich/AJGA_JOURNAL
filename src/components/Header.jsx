@@ -116,8 +116,8 @@ const Header = () => {
     setShowDropdown(false);
     if (role === "Author") {
       navigate("/authordashboard");
-    } else if(role==="Reveiwer"){
-      navigate('/reveiwerdashboard');
+    } else if(role==="Reviewer"){
+      navigate('/reviewerdashboard');
     }
     else {
       navigate("/editordashboard");
@@ -182,7 +182,7 @@ const Header = () => {
         <NavLink onClick={() => navigate("/aboutus")} active={window.location.pathname === "/aboutus"}>
           About Us
         </NavLink>
-        <NavLink onClick={() => navigate("/issuesandpubs")} active={window.location.pathname === "/issuesandpubs"}>
+        <NavLink onClick={() => navigate("/issuesandpubs/0")} active={window.location.pathname === "/issuesandpubs"}>
           Issues & Publications
         </NavLink>
         <NavLink onClick={() => navigate("/contactus")} active={window.location.pathname === "/contactus"}>
@@ -196,7 +196,7 @@ const Header = () => {
           </RoleButton>
           <DropdownMenu show={showDropdown} ref={menuRef}>
             <DropdownItem onClick={() => handleRoleSwitch("Author")}>Author Dashboard</DropdownItem>
-            <DropdownItem onClick={() => handleRoleSwitch("Reveiwer")}>Reveiwer Dashboard</DropdownItem>
+            <DropdownItem onClick={() => handleRoleSwitch("Reviewer")}>Reviewer Dashboard</DropdownItem>
             <DropdownItem onClick={() => handleRoleSwitch("Editor")}>Editor Dashboard</DropdownItem>
           </DropdownMenu>
         </RoleSelector>

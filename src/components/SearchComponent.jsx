@@ -111,7 +111,7 @@ const Select = styled.select`
 `
 
 
-const AllSubmittedManuscripts = ({ setActivePage }) => {
+const SearchComponent = ({ setActivePage }) => {
   const authorId = useSelector((state) => state.authorInfo.id);
   const [manuscripts, setManuscripts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -123,6 +123,9 @@ const location = useLocation();
 // const [reviewers, setReviewers] = useState([]);
 const [reviewerData,setReviewerData]=useState(null);
 const [statusData, setStatusData]=useState('')
+const [searchTerm, setSearchTerm] = useState("");
+const [searchTerm2, setSearchTerm2] = useState("");
+
 
 
 
@@ -165,7 +168,7 @@ const [statusData, setStatusData]=useState('')
 
 
   useEffect(() => {
-    fetchManuscripts();
+    // fetchManuscripts();
     fetchReviewers();
   }, [authorId]);
 
@@ -200,8 +203,10 @@ const [statusData, setStatusData]=useState('')
 
       if (data.success) {
         Swal.fire("Success!", "Reviewer assigned successfully.", "success");
-        fetchManuscripts();
+        // fetchManuscripts();
         // setReviewers([]);
+        // handleGetManuscriptById(manuscriptId)
+        setActivePage('profile')
       } else {
         Swal.fire("Error!", data.error || "Failed to assign reviewer.", "error");
       }
@@ -226,8 +231,10 @@ const [statusData, setStatusData]=useState('')
       if (data.success) {
         Swal.fire("Success!", "Reviewer unassigned successfully.", "success");
         // Optionally refresh the list or update state
-        fetchManuscripts();
+        // fetchManuscripts();
         // fetchReviewers();
+        // handleGetManuscriptById(manuscriptId)
+        setActivePage('profile')
       } else {
         Swal.fire("Error!", data.error || "Failed to unassign reviewer.", "error");
       }
@@ -349,7 +356,9 @@ const [statusData, setStatusData]=useState('')
       
       if (response.data.success) {
         Swal.fire("Success!", "Status updated successfully.", "success");
-        fetchManuscripts();
+        // fetchManuscripts();
+        // handleGetManuscriptById(manuscriptId)
+        setActivePage('profile')
       } else {
         Swal.fire("Error!", response.data.error || "Failed to update status.", "error");
       }
@@ -380,15 +389,88 @@ useEffect(() => {
 
    
 
+// get manuscript by id
+const handleGetManuscriptById = async (manuscriptId) => {
+ 
+
+    try {
+      const response = await axios.get(`https://www.ajga-journal.org/api/get_manuscript_by_id.php?id=${manuscriptId}`);
+      
+      if (response.data.success) {
+        setManuscripts(response.data.manuscript);
+      } else {
+        Swal.fire({text:response.data.error || 'Failed to fetch manuscript'});
+        setManuscripts(null); // Clear previous data
+      }
+    } catch (err) {
+      console.error('Error fetching manuscript:', err);
+      Swal.fire({text:'Network issue or server error.'});
+      setManuscripts(null); // Clear previous data
+    }
+  };
 
 
-  if (loading) {
-    return (
-      <Container>
-        <Title>Loading...</Title>
-      </Container>
-    );
-  }
+
+const handleSearch = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const loadingAlert = Swal.fire({text:"Please wait..."})
+    Swal.showLoading();
+    
+    try {
+      const response = await fetch(
+        `https://www.ajga-journal.org/api/search_manuscripts_by_title.php?search=${searchTerm}`,
+        { cache: "no-store" }
+      );
+      const data = await response.json();
+      if (data.success) {
+        setManuscripts(data.manuscripts);
+      } else {
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error("Error searching manuscripts:", error);
+    } finally {
+      setLoading(false);
+      loadingAlert.close();
+    }
+  };
+  
+  
+  const handleSearch2 = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    const loadingAlert = Swal.fire({text:"Please wait..."})
+    Swal.showLoading();
+    
+    try {
+      const response = await fetch(
+        `https://www.ajga-journal.org/api/search_manuscripts_by_article_code.php?search=${searchTerm2}`,
+        { cache: "no-store" }
+      );
+      const data = await response.json();
+      if (data.success) {
+        setManuscripts(data.manuscripts);
+      } else {
+        console.error(data.error);
+      }
+    } catch (error) {
+      console.error("Error searching manuscripts:", error);
+    } finally {
+      setLoading(false);
+      loadingAlert.close();
+    }
+  };
+
+
+
+//   if (loading) {
+//     return (
+//       <Container>
+//         <Title>Loading...</Title>
+//       </Container>
+//     );
+//   }
 
 
 
@@ -396,9 +478,57 @@ useEffect(() => {
 
   return (
     <Container>
-      <Title> All Submitted Manuscripts</Title>
+      <Title> Search Submitted Manuscripts</Title>
+      <form onSubmit={handleSearch} style={{ textAlign: "center", marginBottom: "20px" }}>
+  <input
+    type="text"
+    placeholder="Search manuscripts by title"
+    value={searchTerm}
+    onChange={(e) => {setSearchTerm(e.target.value);setSearchTerm2('')}}
+    style={{ padding: "10px", width: "300px", borderRadius: "5px", border: "1px solid #ccc", outline:"none" }}
+  />
+  <button
+    type="submit"
+    style={{
+      padding: "10px 15px",
+      marginLeft: "5px",
+      background: "#0077B5",
+      color: "white",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer"
+    }}
+  >
+    Search
+  </button>
+</form>
 
-      <Select style={{marginBottom:"10px"}} onChange={(e)=>setStatusId(e.target.value)}>
+<form onSubmit={handleSearch2} style={{ textAlign: "center", marginBottom: "20px" }}>
+  <input
+    type="text"
+    placeholder="Search by Article code"
+    value={searchTerm2}
+    onChange={(e) => {setSearchTerm2(e.target.value);setSearchTerm('')}}
+    style={{ padding: "10px", width: "300px", borderRadius: "5px", border: "1px solid #ccc", outline:"none" }}
+  />
+  <button
+    type="submit"
+    style={{
+      padding: "10px 15px",
+      marginLeft: "5px",
+      background: "#0077B5",
+      color: "white",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer"
+    }}
+  >
+    Search
+  </button>
+</form>
+
+
+      {/* <Select style={{marginBottom:"10px"}} onChange={(e)=>setStatusId(e.target.value)}>
         <option value="">-- Filter by status --</option>
         {status.map((stat)=>(
             <option value={stat.id} key={stat.id}>{stat.name.toUpperCase()}</option>
@@ -408,12 +538,14 @@ useEffect(() => {
          marginLeft:"5px",
          backgroundColor:"red", 
          border:"none",color:"white", padding:"5px", borderRadius:"5px"}} onClick={()=>setStatusId("")}>Cancel filter</button>}
-      
+       */}
+
+
       {manuscripts.length === 0 ? (
         <p>No manuscripts found.</p>
       ) : (
 
-        filteredArray.map((manuscript) => (
+        manuscripts.map((manuscript) => (
           <TableContainer key={manuscript.id}>
             <Table>
               <tbody>
@@ -530,4 +662,4 @@ useEffect(() => {
   );
 };
 
-export default AllSubmittedManuscripts;
+export default SearchComponent;

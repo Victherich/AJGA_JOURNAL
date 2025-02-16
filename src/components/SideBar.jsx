@@ -8,6 +8,7 @@ import {
   FaRecycle, FaShieldAlt, FaGlobeAmericas
 } from "react-icons/fa";
 import { Context } from "./Context";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -87,6 +88,7 @@ const IssueItem = styled.li`
 const Sidebar = () => {
   const [expandedYear, setExpandedYear] = useState(null);
   const {categories}=useContext(Context);
+  const navigate = useNavigate()
 
   const years = {
     2025: ["Vol 12, Issue 1", "Vol 12, Issue 2"],
@@ -95,15 +97,18 @@ const Sidebar = () => {
   };
 
 
-
+ 
 
   return (
     <SidebarContainer>
       <SidebarTitle>Browse Categories</SidebarTitle>
+
       
+      
+  
       {/* Categories Section */}
       {categories.map((category, index) => (
-        <MenuItem key={index}>
+        <MenuItem key={index} onClick={()=>navigate(`/issuesandpubs/${category.id}`)}>
           {category.icon} {category.name}
         </MenuItem>
       ))}
