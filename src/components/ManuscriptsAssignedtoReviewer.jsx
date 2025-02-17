@@ -16,6 +16,7 @@ const Container = styled.div`
   padding: 20px;
   background: #f4f4f4;
   min-height: 100vh;
+
 `;
 
 const Title = styled.h2`
@@ -29,6 +30,7 @@ const TableContainer = styled.div`
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
+  overflow-x:scroll;
 `;
 
 const Table = styled.table`
@@ -82,6 +84,7 @@ const ViewButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
+  margin:10px;
 
   &:hover {
     background: #005A93;
@@ -297,7 +300,7 @@ useEffect(() => {
                    
 
 
-<ViewButton onClick={() => handleOpenComments(manuscript.id)} style={{marginLeft:"5px"}}>
+<ViewButton onClick={() => handleOpenComments(manuscript.id)} >
                       Comments
                     </ViewButton>
 
@@ -310,7 +313,7 @@ useEffect(() => {
                       ))}
                     </Select>
 
-                    <ViewButton onClick={()=>handleUpdateStatus(manuscript.id)} style={{marginLeft:"5px"}}>
+                    <ViewButton onClick={()=>handleUpdateStatus(manuscript.id)} >
                       Click to Update Status
                     </ViewButton>
 

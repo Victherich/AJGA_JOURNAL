@@ -150,10 +150,17 @@ const Div1 = styled.div`
 
 const Div2 = styled.div`
   width:25%;
+  @media(max-width:768px){
+    display:none;
+  }
 `
 
 const Div3 = styled.div`
   width:75%;
+
+   @media(max-width:768px){
+    width:100%;
+  }
 `
 
 const Footer = styled.footer`
@@ -330,7 +337,8 @@ const ArchivesPage = () => {
             placeholder="Search articles by title"
           />
           <SearchButton onClick={handleSearch}>
-            <FaSearch size={20} /> Search
+            <FaSearch size={20} /> 
+          
           </SearchButton>
         </SearchBarContainer>
 

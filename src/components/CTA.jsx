@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled , {keyframes} from "styled-components";
 
 
@@ -49,11 +50,12 @@ const CTAButton = styled.button`
 `;
 
 const CTA = () => {
+  const navigate = useNavigate();
   return (
     <CTAContainer id="cta">
       <h2>Get Involved Today</h2>
       <p>Submit your research and join a global network of researchers.</p>
-      <CTAButton>Submit Now</CTAButton>
+      <CTAButton  onClick = {()=>navigate('/authordashboard')}>Submit Now</CTAButton>
     </CTAContainer>
   );
 };

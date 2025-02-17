@@ -32,6 +32,11 @@ const SidebarTitle = styled.h2`
   text-align: center;
   border-bottom: 2px solid #444;
   padding-bottom: 10px;
+
+
+  @media(max-width:768px){
+  font-size:20px;
+}
 `;
 
 const MenuItem = styled.div`
@@ -46,6 +51,10 @@ const MenuItem = styled.div`
   &:hover {
     background: #444;
   }
+
+  @media(max-width:768px){
+  font-size:14px;
+}
 `;
 
 const YearSection = styled.div`
@@ -85,7 +94,7 @@ const IssueItem = styled.li`
   }
 `;
 
-const Sidebar = () => {
+const Sidebar = ({setMobileMenuOpen}) => {
   const [expandedYear, setExpandedYear] = useState(null);
   const {categories}=useContext(Context);
   const navigate = useNavigate()
@@ -108,7 +117,7 @@ const Sidebar = () => {
   
       {/* Categories Section */}
       {categories.map((category, index) => (
-        <MenuItem key={index} onClick={()=>navigate(`/issuesandpubs/${category.id}`)}>
+        <MenuItem key={index} onClick={()=>{navigate(`/issuesandpubs/${category.id}`); setMobileMenuOpen(false)}}>
           {category.icon} {category.name}
         </MenuItem>
       ))}
@@ -134,3 +143,6 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
+
+

@@ -47,7 +47,7 @@ const MenuButton = styled.div`
 
 
   @media(max-width:420px){
-  display:none;
+  // display:none;
   }
 `;
 

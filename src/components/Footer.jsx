@@ -176,7 +176,7 @@ export default function Footer() {
                     <SocialIcons>
                     <a href="https://facebook.com/AJGAJournal" target="_blank" rel="noopener noreferrer"><FaFacebook /></a>
                         <a href="https://twitter.com/AJGA_Journal" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
-                        <a href="https://linkedin.com/company/african-journal-of-general-agriculture" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
+                        <a href="https://twitter.com/AJGA_Journal" target="_blank" rel="noopener noreferrer"><FaLinkedin /></a>
                     </SocialIcons>
                 </FooterSection>
             </FooterGrid>
@@ -184,7 +184,7 @@ export default function Footer() {
             {/* Copyright */}
             <Copyright>
                 <p>© {new Date().getFullYear()} AJGA Journal. All rights reserved.</p>
-                <p><a style={{cursor:"pointer"}}>Privacy Policy</a> | <a style={{cursor:"pointer"}}>Terms of Service</a></p>
+                <p><a style={{cursor:"pointer", textDecoration:"underline"}} onClick={()=>navigate('/publishingpolicy')}>Publishing Policy</a></p>
             </Copyright>
 
             {/* Back to Top Button */}

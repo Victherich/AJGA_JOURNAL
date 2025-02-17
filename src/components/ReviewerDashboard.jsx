@@ -19,17 +19,33 @@ const DashboardContainer = styled.div`
   justify-content:center;
 `;
 
+// const Sidebar = styled.div`
+//   background: gray;
+//   width: ${(props) => (props.open ? "250px" : "60px")};
+//   height: 100%;
+//   min-height:600px;
+//   transition: width 0.3s ease-in-out;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   padding-top: 20px;
+//   z-index: 10;
+// `;
+
 const Sidebar = styled.div`
-  background: gray;
+  // background: #0077B5;
+  background:rgba(0,0,0,0.3);
   width: ${(props) => (props.open ? "250px" : "60px")};
-  height: 100%;
-  min-height:600px;
+  // height: 100%;
+  // min-height:600px;
   transition: width 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
-  z-index: 10;
+  // z-index: 10;
+  position:fixed;
+  right:0px;
 `;
 
 const MenuButton = styled.div`
@@ -44,7 +60,7 @@ const MenuButton = styled.div`
 
 
   @media(max-width:420px){
-  display:none;
+  // display:none;
   }
 `;
 

@@ -1,6 +1,7 @@
 import React from "react";
 import styled,{keyframes} from "styled-components";
 import registerImg from "../Images/registerImg3.png";
+import { useNavigate } from "react-router-dom";
 
 
 const buttonSlide = keyframes`
@@ -59,6 +60,7 @@ const Button = styled.button`
 `;
 
 const Submit = () => {
+  const navigate = useNavigate()
   return (
     <SubmitContainer id="submit">
       <SubmitText>
@@ -70,7 +72,7 @@ const Submit = () => {
           <p>3. Our editorial board will review your submission.</p>
         </ol>
       </SubmitText>
-      <Button>Submit Your Paper</Button>
+      <Button onClick = {()=>navigate('/authordashboard')}>Submit Your Paper</Button>
     </SubmitContainer>
   );
 };

@@ -27,6 +27,7 @@ const TableContainer = styled.div`
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
+  overflow-x:scroll;
 `;
 
 const Table = styled.table`
@@ -81,7 +82,7 @@ const ViewButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
-  margin-left: 5px;
+  margin: 10px;
 
   &:hover {
     background: rgba(0,0,255,0.7);
@@ -96,7 +97,7 @@ const AssignButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
-  margin-left: 5px;
+  margin: 10px;
 
   &:hover {
     background: rgba(0,0,255,0.7);
@@ -491,7 +492,7 @@ const handleSearch = async (e) => {
     type="submit"
     style={{
       padding: "10px 15px",
-      marginLeft: "5px",
+      margin: "10px",
       background: "#0077B5",
       color: "white",
       border: "none",
@@ -515,7 +516,7 @@ const handleSearch = async (e) => {
     type="submit"
     style={{
       padding: "10px 15px",
-      marginLeft: "5px",
+      margin: "10px",
       background: "#0077B5",
       color: "white",
       border: "none",
@@ -617,18 +618,18 @@ const handleSearch = async (e) => {
                     <ViewButton onClick={() => handleOpenComments(manuscript.id)}>
                       Comments
                     </ViewButton>
-                    <p
-                        style={{
-                          color: "rgba(0, 0, 255, 0.7)",
-                          fontWeight: "bold",
-                          marginTop: "10px",
-                        }}
-                      >
-                        {/* Assigned to: {fetchReviewerData(manuscript.reviewer_id)}  */}
-                        {/* Assigned to: {reviewerEmails} */}
-                        Assigned to: {reviewerEmails[manuscript.reviewer_id] || "none"}
-                        
-                      </p>
+                   <p
+  style={{
+    color: "rgba(0, 0, 255, 0.7)",
+    fontWeight: "bold",
+    marginTop: "10px",
+    wordWrap: "break-word",
+    overflowWrap: "break-word",
+    whiteSpace: "normal",
+  }}
+>
+  Assigned to: {reviewerEmails[manuscript.reviewer_id] || "none"}
+</p>
 
                       <p>Update status:</p>
                     <Select onChange={(e)=>setStatusData(e.target.value)}>
@@ -638,8 +639,8 @@ const handleSearch = async (e) => {
                       ))}
                     </Select>
 
-                    <ViewButton onClick={()=>handleUpdateStatus(manuscript.id)} style={{marginLeft:"5px"}}>
-                      Click to Update Status
+                    <ViewButton onClick={()=>handleUpdateStatus(manuscript.id)}>
+                      Update Status
                     </ViewButton>
                   </TdValue>
                 </tr>

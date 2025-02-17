@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import PayManuscriptAPC from "./PayManuscriptAPC";
 import { Context } from "./Context";
 import CommentComponent from "./CommentComponent";
+import PayManuscriptAPCFlutterwave from "./PayManuscriptAPCFlutterwave";
 
 
 const Container = styled.div`
@@ -28,6 +29,7 @@ const TableContainer = styled.div`
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
+  overflow-x:scroll;
 `;
 
 const Table = styled.table`
@@ -82,7 +84,7 @@ const ViewButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
-
+  margin-bottom:10px;
   &:hover {
     background: #005A93;
   }
@@ -289,6 +291,15 @@ const AuthorManuscripts = ({ setActivePage }) => {
                       <PayManuscriptAPC
                         manuscriptId={manuscript.id}
                         amount={50000} // Set the APC amount
+                        authorEmail={author.email}
+                        setActivePage={setActivePage}
+                      />
+                    )}
+
+{manuscript.APC === "unpaid" &&manuscript.status==="5"&&  (
+                      <PayManuscriptAPCFlutterwave
+                        manuscriptId={manuscript.id}
+                        amount={50} // Set the APC amount
                         authorEmail={author.email}
                         setActivePage={setActivePage}
                       />

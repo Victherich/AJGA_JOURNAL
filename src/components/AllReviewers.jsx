@@ -138,11 +138,11 @@ const ReviewerCard = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
   padding: 20px;
-  margin: 10px 0;
+  margin: 30px 0;
   transition: transform 0.2s;
 
   &:hover {
-    transform: scale(1.02);
+    // transform: scale(1.02);
   }
 
 

@@ -107,6 +107,7 @@ const TableContainer = styled.div`
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
+  overflow-x:scroll;
 `;
 
 const Table = styled.table`
@@ -410,7 +411,7 @@ const getCategoryName = (categoryId) => {
     type="submit"
     style={{
       padding: "10px 15px",
-      marginLeft: "5px",
+      margin: "10px",
       background: "#0077B5",
       color: "white",
       border: "none",

@@ -14,19 +14,19 @@ const SignUpContainer = styled.div`
   align-items: center;
   padding-bottom: 100px;
    background-color: #f4f4f9;
-    background-image:url(${bg});
-    background-size: cover;
-    position:relative;
+    // background-image:url(${bg});
+    // background-size: cover;
+    // position:relative;
    
-     &::before {
-       content: "";
-       position: absolute;
-       top: 0;
-       left: 0;
-       width: 100%;
-       height: 100%;
-       background-color: rgba(255, 255, 255, 0.7);
-     }
+    //  &::before {
+    //    content: "";
+    //    position: absolute;
+    //    top: 0;
+    //    left: 0;
+    //    width: 100%;
+    //    height: 100%;
+    //    background-color: rgba(255, 255, 255, 0.7);
+    //  }
 `;
 
 const FormWrapper = styled.div`
@@ -36,7 +36,7 @@ const FormWrapper = styled.div`
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
   width: 400px;
   text-align: center;
-    position:relative;
+    // position:relative;
 `;
 
 const InputField = styled.div`

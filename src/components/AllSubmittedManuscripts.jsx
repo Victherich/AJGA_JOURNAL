@@ -27,6 +27,7 @@ const TableContainer = styled.div`
   border-radius: 5px;
   padding: 20px;
   margin-bottom: 20px;
+  overflow-x:scroll;
 `;
 
 const Table = styled.table`
@@ -81,7 +82,7 @@ const ViewButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
-  margin-left: 5px;
+  margin: 10px;
 
   &:hover {
     background: rgba(0,0,255,0.7);
@@ -96,7 +97,7 @@ const AssignButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
   transition: 0.3s;
-  margin-left: 5px;
+  margin: 10px;
 
   &:hover {
     background: rgba(0,0,255,0.7);
@@ -507,7 +508,7 @@ useEffect(() => {
                     </Select>
 
                     <ViewButton onClick={()=>handleUpdateStatus(manuscript.id)} style={{marginLeft:"5px"}}>
-                      Click to Update Status
+                      Update Status
                     </ViewButton>
                   </TdValue>
                 </tr>

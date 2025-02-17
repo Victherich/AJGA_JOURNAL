@@ -85,7 +85,7 @@ const PayManuscriptAPC = ({ manuscriptId, amount, authorEmail , setActivePage}) 
         marginLeft: "5px",
       }}
     >
-      Pay APC Fee
+      Pay APC Fee (NAIRA)
     </button>
   );
 };

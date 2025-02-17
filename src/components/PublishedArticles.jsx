@@ -374,7 +374,7 @@ const PublishedArticles = () => {
             placeholder="Search articles by title"
           />
           <SearchButton onClick={handleSearch}>
-            <FaSearch size={20} /> Search
+            <FaSearch size={20} /> 
           </SearchButton>
         </SearchBarContainer>
 
