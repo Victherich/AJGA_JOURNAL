@@ -94,9 +94,9 @@ const IssueItem = styled.li`
   }
 `;
 
-const Sidebar = ({setMobileMenuOpen}) => {
+const Sidebar = () => {
   const [expandedYear, setExpandedYear] = useState(null);
-  const {categories}=useContext(Context);
+  const {categories, mobileMenuOpen, setMobileMenuOpen}=useContext(Context);
   const navigate = useNavigate()
 
   const years = {

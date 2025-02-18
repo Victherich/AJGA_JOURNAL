@@ -99,7 +99,7 @@ const Select = styled.select`
 `
 
 
-const ManuscriptsAssignedtoReviewer = ({ setActivePage }) => {
+const ManuscriptsAssignedtoReviewer = () => {
   const reviewerId = useSelector((state) => state.reviewerInfo.id);
   const reviewer = useSelector((state) => state.reviewerInfo);
   const [manuscripts, setManuscripts] = useState([]);

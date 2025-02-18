@@ -264,7 +264,7 @@ const ManuscriptSubmission = ({setActivePage}) => {
           <InputField>
             <select name="articleCategory" required onChange={handleChange}>
               <option value="Research Article">-- Select Article Category --</option>
-              {categories.map((category) => (
+              {categories.slice(1).map((category) => (
                 <option key={category.id} value={category.id}>{category.name}</option>
               ))}
             </select>

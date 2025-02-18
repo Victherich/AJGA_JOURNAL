@@ -290,10 +290,14 @@ import JournalPolicy5 from './JournalPolicy5'
 import JournalPolicy6 from './JournalPolicy6'
 import styled from 'styled-components'
 import policybg from '../Images/policybg.jpg'
+import JournalPolicy7 from './JournalPolicy7'
+import JournalPolicy8 from './JournalPolicy8'
+import JournalPolicy9 from './JournalPolicy9'
+import JournalPolicy10 from './JournalPolicy10'
 
 const PublishingPolicies = () => {
 const Div = styled.div`
-  background-image:url(${policybg});
+  // background-image:url(${policybg});
   padding-bottom:100px;
   background-size:cover;
 `
@@ -306,7 +310,10 @@ const Div = styled.div`
       <JournalPolicy4/>
       <JournalPolicy5/>
       <JournalPolicy6/>
-      
+      <JournalPolicy7/>
+      <JournalPolicy8/>
+      <JournalPolicy9/>
+      <JournalPolicy10/>
     </Div>
   )
 }

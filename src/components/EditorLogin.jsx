@@ -133,6 +133,7 @@ const EditorLogin = () => {
           icon: "success",
           title: "Login Successful!",
           text: "Welcome back, " + result.user.full_name,
+          allowOutsideClick:false,
         }).then((result)=>{
           if(result.isConfirmed){
             navigate("/editordashboard");

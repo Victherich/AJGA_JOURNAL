@@ -1,168 +1,3 @@
-// // src/components/PublicationDetail.js
-// import React, { useEffect, useState } from 'react';
-// import axios from 'axios';
-// import styled from 'styled-components';
-// import { motion } from 'framer-motion';
-// import { FaBook, FaUser, FaCalendar, FaLink, FaFilePdf } from 'react-icons/fa';
-// import { useParams } from 'react-router-dom';
-
-// // Styled Components
-// const ContainerWrap = styled.div`
-//     display:flex;
-//     justify-content:center;
-//     align-items:center;
-//     width:100%;
-//     padding-top:100px;
-//     padding-bottom:100px;
-// `
-
-// const Container = styled(motion.div)`
-//   max-width: 1200px;
-//   margin: auto;
-//   padding: 20px;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-// //   background: linear-gradient(145deg, #ffafbd, #ffc3a0);
-//   background-color:whitesmoke;
-//   border-radius: 20px;
-//   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-//   color: rgba(0,0,255,0.5);
-//   animation: fadeIn 1s ease-in-out;
-//   width:100%;
-
-//   @media (max-width: 768px) {
-//     padding: 10px;
-//   }
-// `;
-
-// const Title = styled.h1`
-//   font-size: 2.5em;
-//   text-align: center;
-//   margin-bottom: 20px;
-//   color: rgba(0,0,255,0.5);
-// `;
-
-// const Field = styled.div`
-//   width: 100%;
-//   margin: 10px 0;
-//   padding: 15px;
-//   background: white;
-//   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-//   border-radius: 10px;
-//   display: flex;
-//   align-items: center;
-//   color: rgba(0,0,255,0.5);
-//   font-size: 1.2em;
-//   animation: slideIn 1s ease;
-
-//   svg {
-//     margin-right: 15px;
-//     color: rgba(0,0,255,0.5);
-//   }
-// `;
-
-// const StyledLink = styled.a`
-//     font-weight:bold;
-//     font-style:italic;
-//   color:rgba(0,0,255,0.7);
-//   text-decoration: none;
-//   transition: color 0.3s ease;
-
-//   &:hover {
-//     color: #fff;
-//   }
-// `;
-
-// // Component Logic
-// const PublicationDetail = () => {
-//   const [publication, setPublication] = useState(null);
-//   const [error, setError] = useState('');
-//   const {id}=useParams();
-
-//   useEffect(() => {
-//     axios.get(`https://www.ajga-journal.org/api/get_publication_by_id.php?id=${id}`)
-//       .then(response => {
-//         if (response.data.success) {
-//           setPublication(response.data.publication);
-//         } else {
-//           setError(response.data.message);
-//         }
-//       })
-//       .catch(() => setError('Failed to fetch publication.'));
-//   }, [id]);
-
-//   if (error) {
-//     return <Container>{error}</Container>;
-//   }
-
-//   if (!publication) {
-//     return <Container>Loading...</Container>;
-//   }
-
-//   return (
-//    <ContainerWrap>
-//          <Container 
-//       initial={{ opacity: 0 }} 
-//       animate={{ opacity: 1 }} 
-//       transition={{ duration: 1 }}
-//     >
-//       <Title>
-//         <FaBook /> {publication.title}
-//       </Title>
-
-//       <Field>
-//         <FaUser /> Author ID: {publication.author_id}
-//       </Field>
-
-//       <Field>
-//         <FaCalendar /> Created At: {new Date(publication.created_at).toLocaleDateString()}
-//       </Field>
-
-//       <Field>
-//         <FaCalendar /> Updated At: {new Date(publication.updated_at).toLocaleDateString()}
-//       </Field>
-
-//       <Field>
-//         <FaBook /> Abstract: {publication.abstract}
-//       </Field>
-
-//       <Field>
-//         <FaBook /> Keywords: {publication.keywords}
-//       </Field>
-
-//       <Field>
-//         <FaUser /> Co-Authors: {publication.co_authors}
-//       </Field>
-
-//       <Field>
-//         <FaBook /> Article Category: {publication.article_category}
-//       </Field>
-
-//       <Field>
-//         <FaBook /> Article Code: {publication.article_code}
-//       </Field>
-
-//       <Field>
-//         <FaBook /> Last Revised Code: {publication.last_revised_article_code}
-//       </Field>
-
-//       <Field>
-//         <FaLink /> DOI Link: 
-//         <StyledLink href={publication.doiLink} target="_blank"> {publication.doiLink} </StyledLink>
-//       </Field>
-
-//       <Field>
-//         <FaFilePdf /> File: 
-//         <StyledLink href={`https://www.ajga-journal.org/api/${publication.file_path}`} target="_blank"> Download </StyledLink>
-//       </Field>
-//     </Container>
-//    </ContainerWrap>
-//   );
-// };
-
-// export default PublicationDetail;
-
 
 
 
@@ -198,7 +33,7 @@ const Container = styled(motion.div)`
   background: #f5f5f5;
   border-radius: 20px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-//   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 20px;
+
   color: #333;
   width: 100%;
 
@@ -281,7 +116,7 @@ const StyledLink = styled.a`
 
 const DownloadButton = styled(StyledLink)`
   background: #1e90ff;
-//   margin-left: 10px;
+
 
   &:hover {
     background: #007bff;
@@ -292,7 +127,7 @@ const BackButton = styled.button`
       display: inline-block;
   margin-top: 20px;
   padding: 10px 20px;
-//   background: rgba(0,0,255,0.5);
+
   color: blue;  
   text-decoration: none;
   border-radius: 5px;
@@ -301,10 +136,18 @@ const BackButton = styled.button`
   font-weight: bold;
   cursor:pointer;
 
-  &:hover {
-    // background: rgba(0,0,255,0.7);
-  }
+
 `
+
+
+const ViewPdfButton = styled(StyledLink)`
+  background: #ff6347;
+
+  &:hover {
+    background: #ff4500;
+  }
+`;
+
 
 // Component Logic
 const PublicationDetail = () => {
@@ -312,7 +155,7 @@ const PublicationDetail = () => {
   const [error, setError] = useState('');
   const { id } = useParams();
   const {categories}=useContext(Context)
-//   const [authorData, setAuthorData]=useState({})
+
 
   const [authorName, setAuthorName] = useState('');
 
@@ -369,6 +212,18 @@ const PublicationDetail = () => {
       return "Error fetching author"; // Optional: Error message
     }
   };
+
+
+  const openDocument = (filePath) => {
+    if (filePath.endsWith('.pdf')) {
+      window.open(`https://www.ajga-journal.org/api/${filePath}`, "_blank");
+    } else if (filePath.endsWith('.docx') || filePath.endsWith('.doc')) {
+      window.open(`https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(`https://www.ajga-journal.org/api/${filePath}`)}`, "_blank");
+    } else {
+      alert('Unsupported file type.');
+    }
+  };
+  
   
 
 
@@ -408,9 +263,7 @@ const PublicationDetail = () => {
 </Subtitle>
 
 
-          {/* <Subtitle>
-            <FaCalendar /> Updated At: {new Date(publication.updated_at).toLocaleDateString()}
-          </Subtitle> */}
+
 
           <Description>
             <strong>Abstract:</strong> {publication.abstract}
@@ -431,21 +284,35 @@ const PublicationDetail = () => {
           <Description>
             <strong>Article Code:</strong> {publication.article_code}
           </Description>
-{/* 
-          <Description>
-            <strong>Last Revised Code:</strong> {publication.last_revised_article_code}
-          </Description> */}
 
-          <StyledLink onClick={()=>window.open(`${publication.doiLink}`,"_blank")}>
-            <FaLink /> View DOI Link
-          </StyledLink>
+
+          
+
+          {/* <ViewPdfButton 
+  onClick={() => window.open(`https://www.ajga-journal.org/api/${publication.file_path}`, "_blank")}
+>
+  <FaFilePdf /> View PDF
+</ViewPdfButton> */}
+
+<ViewPdfButton onClick={() => openDocument(publication.file_path)}>
+  <FaFilePdf /> View Document
+</ViewPdfButton>
+
+
+
+
 
           <DownloadButton 
             href={`https://www.ajga-journal.org/api/${publication.file_path}`} 
             target="_blank"
           >
-            <FaFilePdf /> Download PDF
+            <FaFilePdf /> Download Document
           </DownloadButton>
+
+
+          <StyledLink onClick={()=>window.open(`${publication.doiLink}`,"_blank")}>
+            <FaLink /> View DOI Link
+          </StyledLink>
         </Details>
       </Container>
       <BackButton onClick={()=>window.history.back()}>Back</BackButton>

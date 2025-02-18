@@ -183,12 +183,12 @@ const EditorDashboard = () => {
 
       <ContentContainer open={menuOpen}>
         {activePage === "profile" && <EditorProfile/>}
-        {activePage === "submission" && <AllSubmittedManuscripts setActivePage={setActivePage}/>}
-        {activePage === "register" && <EditorSignUp setActivePage={setActivePage}/>}
-        {activePage === "allreviewers" && <AllReviewers setActivePage={setActivePage}/>}
+        {activePage === "submission" && <AllSubmittedManuscripts/>}
+        {activePage === "register" && <EditorSignUp/>}
+        {activePage === "allreviewers" && <AllReviewers/>}
         {activePage === "searchmanuscripts" && <SearchComponent setActivePage={setActivePage}/>}
         {activePage === "publisharticle" && <PublishArticle setActivePage={setActivePage}/>}
-        {activePage === "publishedarticles" && <PublishedArticles setActivePage={setActivePage}/>}
+        {activePage === "publishedarticles" && <PublishedArticles/>}
       </ContentContainer>
     </DashboardContainer>
   );

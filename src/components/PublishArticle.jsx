@@ -8,6 +8,9 @@ import { FaFileUpload, FaTag, FaFileAlt, FaUserFriends, FaUpload, FaLink } from 
 import { Context } from './Context';
 import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import axios from "axios";
+import CommentComponent from "./CommentComponent";
+
 
 const SubmissionContainer = styled.div`
   display: flex;
@@ -195,7 +198,7 @@ const Select = styled.select`
 const PublishArticle = ({setActivePage}) => {
   const { categories, status } = useContext(Context);
   const editorInfo = useSelector(state=>state.editorInfo)
-  const authorId = useSelector(state=>state.authorInfo.id)
+  const authorId = useSelector(state=>state.authorInfo?.id)
    const [manuscripts, setManuscripts] = useState([]);
    const [loading, setLoading] = useState(true);
    const [searchTerm2, setSearchTerm2] = useState("");
@@ -466,7 +469,7 @@ const getCategoryName = (categoryId) => {
               </tbody>
             </Table>
 
-            {manuscript.comment&&<CommentComponent manuscriptId={manuscript.id} handleCloseComments={handleCloseComments}/>}
+            {/* {manuscript.comment&&<CommentComponent manuscriptId={manuscript.id} handleCloseComments={handleCloseComments}/>} */}
 
           </TableContainer>
         )))}
@@ -498,7 +501,7 @@ const getCategoryName = (categoryId) => {
           <InputField>
             <select name="articleCategory" required onChange={handleChange}>
               <option value="Research Article">-- Select Article Category --</option>
-              {categories.map((category) => (
+              {categories.slice(1).map((category) => (
                 <option key={category.id} value={category.id}>{category.name}</option>
               ))}
             </select>
@@ -517,7 +520,7 @@ const getCategoryName = (categoryId) => {
 
 
 
-          <FileInput id="file" type="file" accept=".doc,.docx,.pdf" required onChange={handleFileChange} />
+          <FileInput id="file" type="file" accept=".pdf" required onChange={handleFileChange} />
           <FileLabel htmlFor="file">
             <FaUpload /> Upload Manuscript
           </FileLabel>

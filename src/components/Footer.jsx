@@ -24,6 +24,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaArrowUp } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 // Styled Components for Footer
 const FooterContainer = styled.footer`
@@ -128,6 +130,54 @@ const BackToTop = styled.button`
 export default function Footer() {
     const [showTopBtn, setShowTopBtn] = useState(false);
     const navigate=useNavigate();
+    const [email, setEmail]=useState('')
+
+    const handleSubmit = async (e) => {
+   
+
+      e.preventDefault();
+      Swal.fire({
+        title: 'Subscribing...',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+  
+      try {
+        const response = await axios.post('https://www.ajga-journal.org/api/newsletter_subscribe.php', 
+          { email },
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        );
+  
+        if (response.data.success) {
+          setEmail('');
+          Swal.fire({
+            icon: 'success',
+            title: 'Success!',
+            text: response.data.message
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error!',
+            text: response.data.error
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'There was an error processing your subscription.'
+        });
+      }
+    };
+  
 
     useEffect(() => {
         const handleScroll = () => {
@@ -136,6 +186,9 @@ export default function Footer() {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
+
+
+
 
     return (
         <FooterContainer>
@@ -165,8 +218,12 @@ export default function Footer() {
                     <h2>Newsletter</h2>
                     <p>Stay updated with our latest updates.</p>
                     <div>
-                        <NewsletterInput type="email" placeholder="Enter your email" />
-                        <SubscribeButton>Subscribe</SubscribeButton>
+                      <form onSubmit={handleSubmit}>
+                      <NewsletterInput required type="email" placeholder="Enter your email" onChange={(e)=>setEmail(e.target.value)}/>
+                        <SubscribeButton type="submit">Subscribe</SubscribeButton>
+                   
+                      </form>
+                   
                     </div>
                 </FooterSection>
 

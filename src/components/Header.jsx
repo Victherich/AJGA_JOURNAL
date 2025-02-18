@@ -210,19 +210,21 @@
 
 
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FaUserCircle, FaBars, FaTimes } from "react-icons/fa";
 import logo from "../Images/logo.png";
 import Sidebar from "./SideBar";
+import { Context } from "./Context";
 
 const HeaderContainer = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 15px 30px;
-  background: rgba(0, 0, 0, 0.7);
+  // background: rgba(0, 0, 0, 0.7);
+  background:rgba(0,0,255,0.5);
   position: fixed;
   width: 100%;
   top: 0;
@@ -352,7 +354,7 @@ const Category = styled.div`
 const Header = () => {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const {mobileMenuOpen, setMobileMenuOpen} = useContext(Context)
   const menuRef = useRef();
   const menuRef2 = useRef();
 

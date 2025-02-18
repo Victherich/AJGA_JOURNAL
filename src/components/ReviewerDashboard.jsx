@@ -161,7 +161,7 @@ const ReviewerDashboard = () => {
 
       <ContentContainer open={menuOpen}>
         {activePage === "profile" && <ReviewerProfile/>}
-        {activePage === "assignedmanuscript" && <ManuscriptsAssignedtoReviewer setActivePage={setActivePage}/>}
+        {activePage === "assignedmanuscript" && <ManuscriptsAssignedtoReviewer />}
         {activePage === "searchmanuscripts" && <SearchComponent setActivePage={setActivePage}/>}
       </ContentContainer>
     </DashboardContainer>

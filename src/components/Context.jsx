@@ -1,5 +1,5 @@
 import React from 'react'
-import { createContext } from 'react'
+import { createContext , useState} from 'react'
 import { 
     FaBook, FaFlask, FaHistory, FaNewspaper, FaAngleDown, FaAngleRight,
     FaHeartbeat, FaGraduationCap, FaLeaf, FaRobot, FaBrain, FaSatellite,
@@ -34,10 +34,10 @@ const status = [
   {id:7, name:"rejected"}
 ]
 
-
+const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <Context.Provider value={{categories,status}}>
+    <Context.Provider value={{categories,status,mobileMenuOpen, setMobileMenuOpen}}>
       {children}
     </Context.Provider>
   )

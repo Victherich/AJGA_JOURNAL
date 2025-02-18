@@ -112,8 +112,8 @@ const Select = styled.select`
 `
 
 
-const SearchComponent = ({ setActivePage }) => {
-  const authorId = useSelector((state) => state.authorInfo.id);
+const SearchComponent = () => {
+  const authorId = useSelector((state) => state.authorInfo?.id);
   const [manuscripts, setManuscripts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedManuscript, setSelectedManuscript] = useState(null);

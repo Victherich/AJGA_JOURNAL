@@ -277,7 +277,7 @@ const AuthorManuscripts = ({ setActivePage }) => {
                     >
                       View Details
                     </ViewButton>
-                    {/* {manuscript.APC === "unpaid" &&
+                    {manuscript.APC === "unpaid" &&
       
                       <ViewButton
                         onClick={() => deleteManuscript(manuscript.id)}
@@ -285,7 +285,7 @@ const AuthorManuscripts = ({ setActivePage }) => {
                       >
                         Delete
                       </ViewButton>
-                    } */}
+                    }
 
                     {manuscript.APC === "unpaid" &&manuscript.status==="5"&&  (
                       <PayManuscriptAPC

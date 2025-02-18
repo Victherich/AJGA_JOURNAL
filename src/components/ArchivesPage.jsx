@@ -189,7 +189,7 @@ const ArchivesPage = () => {
   const [publications, setPublications] = useState([]);
   const [titleShow, setTitleShow] = useState(false);
   const {articleCategory}=useParams();
-  const {categories}=useContext(Context)
+  const {categories }=useContext(Context)
   const navigate = useNavigate();
   const [authors, setAuthors] = useState([]);
   const [searchTerm, setSearchTerm]=useState('')
