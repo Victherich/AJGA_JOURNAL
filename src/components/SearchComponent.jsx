@@ -112,7 +112,7 @@ const Select = styled.select`
 `
 
 
-const SearchComponent = () => {
+const SearchComponent = ({setActivePage}) => {
   const authorId = useSelector((state) => state.authorInfo?.id);
   const [manuscripts, setManuscripts] = useState([]);
   const [loading, setLoading] = useState(true);
