@@ -430,8 +430,11 @@ const Header = () => {
         <NavLink onClick={() => { navigate("/aboutus"); setMobileMenuOpen(false); }} active={window.location.pathname === "/aboutus"}>
           About Us
         </NavLink>
-        <NavLink onClick={() => { navigate("/issuesandpubs/0"); setMobileMenuOpen(false); }} active={window.location.pathname === "/issuesandpubs"}>
+        <NavLink onClick={() => { navigate("/issuesandpubs/0"); setMobileMenuOpen(false); }} active={window.location.pathname.includes("issuesandpubs")}>
           Issues & Publications
+        </NavLink>
+        <NavLink onClick={() => { navigate("/publishingpolicy"); setMobileMenuOpen(false); }} active={window.location.pathname === "/publishingpolicy"}>
+          Publishing Policy
         </NavLink>
         <NavLink onClick={() => { navigate("/contactus"); setMobileMenuOpen(false); }} active={window.location.pathname === "/contactus"}>
           Contact Us

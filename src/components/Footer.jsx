@@ -197,9 +197,13 @@ export default function Footer() {
                 <FooterSection>
                     <h2 style={{fontFamily:"Brush Script MT, Brush Script Std, cursive"}}>AJGA Journal</h2>
                     <p>We offer high-quality educational resources designed to support researchers, educators, and students in expanding their knowledge and advancing academic excellence.</p>
-                    <br/><p>📍 123 Business Street, Abuja, Nigeria.</p>
-                    <p>📞 +1 234 567 890</p>
-                    <p>📧 contact@ajgajournal.com</p>
+                    <br/><p>📍 African Journal of General Agriculture
+
+Society for Experimental Biology of Nigeria (NISEB)
+
+Department of Environmental Management and Toxicology, Federal University of Petroleum Resources, Effurun, Delta State, Nigeria</p>
+                    <p>📞 +234 803-715-9452</p>
+                    <p>📧 support@ajga-journal.org</p>
                 </FooterSection>
 
                 {/* Quick Links */}
@@ -207,7 +211,7 @@ export default function Footer() {
                     <h2>Quick Links</h2>
                     <p><a style={{cursor:"pointer"}} onClick={()=>navigate('/')}>Home</a></p>
                     <p><a style={{cursor:"pointer"}} onClick={()=>navigate('/aboutus')}>About us</a></p>
-                    <p><a style={{cursor:"pointer"}} onClick={()=>navigate('/issuesandpubs')}>Issues & Publications</a></p>
+                    <p><a style={{cursor:"pointer"}} onClick={()=>navigate('/issuesandpubs/0')}>Issues & Publications</a></p>
                     <p><a style={{cursor:"pointer"}} onClick={()=>navigate('/publishingpolicy')}>Publishing Policy</a></p>
                     <p><a style={{cursor:"pointer"}} onClick={()=>navigate('/contactus')}>Contact us</a></p>
                    

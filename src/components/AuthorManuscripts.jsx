@@ -299,7 +299,7 @@ const AuthorManuscripts = ({ setActivePage }) => {
 {manuscript.APC === "unpaid" &&manuscript.status==="5"&&  (
                       <PayManuscriptAPCFlutterwave
                         manuscriptId={manuscript.id}
-                        amount={50} // Set the APC amount
+                        amount={60} // Set the APC amount
                         authorEmail={author.email}
                         setActivePage={setActivePage}
                       />

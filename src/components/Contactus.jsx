@@ -282,7 +282,7 @@ const ContactSupport = () => {
         <p><strong>African Journal of General Agriculture</strong></p>
         <p>Society for Experimental Biology of Nigeria (NISEB)</p>
         <p>Department of Environmental Management and Toxicology, Federal University of Petroleum Resources, Effurun, Delta State, Nigeria</p>
-        <ContactItem><FaEnvelope /> Email: editorial@ajga-journal.org</ContactItem>
+        <ContactItem><FaEnvelope /> Email: support@ajga-journal.org</ContactItem>
         <ContactItem><FaPhone /> Phone: +234 803-715-9452</ContactItem>
         <ContactItem><FaGlobe /> Website: www.ajga-journal.org</ContactItem>
         <p><strong>Response Time:</strong> 2-3 business days</p>

@@ -55,6 +55,8 @@
 
 // export default Hero;
 
+
+
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import heroVideo from "../Images/media1.mp4";

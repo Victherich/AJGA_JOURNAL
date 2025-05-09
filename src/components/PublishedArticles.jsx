@@ -205,31 +205,89 @@ const PublishedArticles = () => {
 
 
    // Fetch publications based on article category
-   const fetchPublications = async () => {
-    // setLoading(true);
-    // setError('');
-    const loadingAlert = Swal.fire({text:"Please wait..."})
-    Swal.showLoading();
+  //  const fetchPublications = async () => {
+  //   // setLoading(true);
+  //   // setError('');
+  //   const loadingAlert = Swal.fire({text:"Please wait..."})
+  //   Swal.showLoading();
     
-    try {
-      const response = await axios.get(
-        `https://www.ajga-journal.org/api/get_publications_by_category.php?article_category=${articleCategory}`
-      );
+  //   try {
+  //     const response = await axios.get(
+  //       `https://www.ajga-journal.org/api/get_publications_by_category.php?article_category=${articleCategory}`
+  //     );
       
-      if (response.data.success) {
-        setPublications(response.data.publications);
-        console.log(response.data.publications)
-      } else {
-        Swal.fire({text:'Failed to fetch publications.'});
-      }
-    } catch (error) {
-      Swal.fire({text:'Error occurred while fetching publications.'});
-      console.error('Fetch error:', error);
-    }finally{
-      loadingAlert.close();
-    }    
+  //     if (response.data.success) {
+  //       setPublications(response.data.publications);
+  //       console.log(response.data.publications)
+  //     } else {
+  //       Swal.fire({text:'Failed to fetch publications.'});
+  //     }
+  //   } catch (error) {
+  //     Swal.fire({text:'Error occurred while fetching publications.'});
+  //     console.error('Fetch error:', error);
+  //   }finally{
+  //     loadingAlert.close();
+  //   }    
     
-  };
+  // };
+
+   const fetchPublications = async () => {
+      const loadingAlert = Swal.fire({ text: "Please wait..." });
+      Swal.showLoading();
+    
+      try {
+        const response = await axios.get(
+          `https://www.ajga-journal.org/api/get_publications_by_category.php?article_category=${articleCategory}`
+        );
+    
+        if (response.data.success) {
+          const rawPublications = response.data.publications;
+    
+          // STEP 1: Group by year
+          const groupedByYear = {};
+          rawPublications.forEach(pub => {
+            const year = new Date(pub.created_at).getFullYear();
+            if (!groupedByYear[year]) groupedByYear[year] = [];
+            groupedByYear[year].push(pub);
+          });
+    
+          // STEP 2: Determine volume numbers
+          const sortedYears = Object.keys(groupedByYear).sort();
+          const baseVolume = 3; // Volume 3 starts in 2025
+          const yearToVolume = {};
+          sortedYears.forEach((year, index) => {
+            yearToVolume[year] = baseVolume + index;
+          });
+    
+          // STEP 3: Assign volume and issue numbers
+          const processed = [];
+          sortedYears.forEach(year => {
+            const pubs = groupedByYear[year];
+            pubs.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)); // sort oldest first
+    
+            pubs.forEach((pub, i) => {
+              processed.push({
+                ...pub,
+                volume: yearToVolume[year],
+                issue: i + 1,
+              });
+            });
+          });
+    
+          // STEP 4: Set final state
+          setPublications(processed);
+          console.log(processed);
+    
+        } else {
+          Swal.fire({ text: 'Failed to fetch publications.' });
+        }
+      } catch (error) {
+        Swal.fire({ text: 'Error occurred while fetching publications.' });
+        console.error('Fetch error:', error);
+      } finally {
+        loadingAlert.close();
+      }
+    };
 
   // Fetch publications when the component mounts or articleCategory changes
   useEffect(() => {
@@ -400,6 +458,7 @@ const PublishedArticles = () => {
              <CardTitle>{publication.title.toUpperCase()}</CardTitle>
              </TitleWrap>
               <CardText><strong>By:</strong> {getAuthorName(publication.author_id)} | In the Year {new Date(publication.created_at).getFullYear()}</CardText>
+              <p><strong>Volume {pub.volume}, Issue {pub.issue}</strong></p>
           <CardActions>
                 <CardButton onClick={()=>navigate(`/publicationdetail/${publication.id}`)} >
                   <FaNewspaper size={20}  />
