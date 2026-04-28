@@ -90,7 +90,7 @@ function App() {
       </Route>
 
       <Route path='/editorsignup' element={<PrivateEditorSignup/>}>
-        {/* <Route path='' element={<EditorSignUp/>}/> */}
+        <Route path='' element={<EditorSignUp/>}/>
       </Route>
 
       <Route path='/editorlogin' element={<PrivateEditorLogin/>}>
@@ -136,5 +136,5 @@ export default App;
 
 
 //github push code
-// 27/04/2026
-//11:38am
+// 28/04/2026
+//11:26am

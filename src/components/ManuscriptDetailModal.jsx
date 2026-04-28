@@ -13,7 +13,7 @@ const ModalOverlay = styled.div`
   justify-content: center;
   align-items: center;
   padding:5px;
-
+z-index:2000;
 `;
 
 const ModalContent = styled.div`
@@ -24,7 +24,8 @@ const ModalContent = styled.div`
   max-width: 600px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
-
+  overflow-y:scroll;
+height:90%;
   h4{
   margin-top:10px;
   }

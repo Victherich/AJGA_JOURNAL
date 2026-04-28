@@ -108,7 +108,7 @@ const ArchiveCard = styled.div`
 `;
 
 const CardTitle = styled.h3`
-  font-size: 1rem;
+  font-size:0.8rem;
   color: rgba(0, 0, 255, 0.8);
 `;
 
@@ -187,49 +187,75 @@ const PublishedArticles = () => {
   const [authors, setAuthors] = useState([]);
   const [searchTerm, setSearchTerm]=useState('')
 
-//   useEffect(() => {
-//     let index = 0;
-//     const interval = setInterval(() => {
-//       if (index < fullText.length) {
-//         setTypedText(fullText.substring(0, index + 1));
-//         index++;
-//       } else {
-//         clearInterval(interval);
-//       }
-//     }, 100);
-//     return () => clearInterval(interval);
-//   }, []);
 
-
-
-
-
-   // Fetch publications based on article category
   //  const fetchPublications = async () => {
-  //   // setLoading(true);
-  //   // setError('');
-  //   const loadingAlert = Swal.fire({text:"Please wait..."})
-  //   Swal.showLoading();
+  //     const loadingAlert = Swal.fire({ text: "Please wait..." });
+  //     Swal.showLoading();
     
-  //   try {
-  //     const response = await axios.get(
-  //       `https://www.ajga-journal.org/api/get_publications_by_category.php?article_category=${articleCategory}`
-  //     );
-      
-  //     if (response.data.success) {
-  //       setPublications(response.data.publications);
-  //       console.log(response.data.publications)
-  //     } else {
-  //       Swal.fire({text:'Failed to fetch publications.'});
+  //     try {
+  //       const response = await axios.get(
+  //         `https://www.ajga-journal.org/api/get_publications_by_category.php?article_category=${articleCategory}`
+  //       );
+    
+  //       if (response.data.success) {
+  //         const rawPublications = response.data.publications;
+    
+  //         // STEP 1: Group by year
+  //         const groupedByYear = {};
+  //         rawPublications.forEach(pub => {
+  //           const year = new Date(pub.created_at).getFullYear();
+  //           if (!groupedByYear[year]) groupedByYear[year] = [];
+  //           groupedByYear[year].push(pub);
+  //         });
+    
+  //         // STEP 2: Determine volume numbers
+  //         const sortedYears = Object.keys(groupedByYear).sort();
+  //         const baseVolume = 3; // Volume 3 starts in 2025
+  //         const yearToVolume = {};
+  //         sortedYears.forEach((year, index) => {
+  //           yearToVolume[year] = baseVolume + index;
+  //         });
+    
+  //         // STEP 3: Assign volume and issue numbers
+  //         const processed = [];
+  //         sortedYears.forEach(year => {
+  //           const pubs = groupedByYear[year];
+  //           pubs.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)); // sort oldest first
+    
+  //           pubs.forEach((pub, i) => {
+  //             processed.push({
+  //               ...pub,
+  //               volume: yearToVolume[year],
+  //               issue: i + 1,
+  //             });
+  //           });
+  //         });
+    
+  //         // STEP 4: Set final state
+  //         setPublications(processed);
+  //         console.log(processed);
+    
+  //       } else {
+  //         Swal.fire({ text: 'Failed to fetch publications.' });
+  //       }
+  //     } catch (error) {
+  //       Swal.fire({ text: 'Error occurred while fetching publications.' });
+  //       console.error('Fetch error:', error);
+  //     } finally {
+  //       loadingAlert.close();
   //     }
-  //   } catch (error) {
-  //     Swal.fire({text:'Error occurred while fetching publications.'});
-  //     console.error('Fetch error:', error);
-  //   }finally{
-  //     loadingAlert.close();
-  //   }    
-    
-  // };
+  //   };
+
+  // // Fetch publications when the component mounts or articleCategory changes
+  // useEffect(() => {
+  //   fetchPublications();
+  // }, [articleCategory]);
+
+
+
+
+
+
 
    const fetchPublications = async () => {
       const loadingAlert = Swal.fire({ text: "Please wait..." });
@@ -243,40 +269,8 @@ const PublishedArticles = () => {
         if (response.data.success) {
           const rawPublications = response.data.publications;
     
-          // STEP 1: Group by year
-          const groupedByYear = {};
-          rawPublications.forEach(pub => {
-            const year = new Date(pub.created_at).getFullYear();
-            if (!groupedByYear[year]) groupedByYear[year] = [];
-            groupedByYear[year].push(pub);
-          });
-    
-          // STEP 2: Determine volume numbers
-          const sortedYears = Object.keys(groupedByYear).sort();
-          const baseVolume = 3; // Volume 3 starts in 2025
-          const yearToVolume = {};
-          sortedYears.forEach((year, index) => {
-            yearToVolume[year] = baseVolume + index;
-          });
-    
-          // STEP 3: Assign volume and issue numbers
-          const processed = [];
-          sortedYears.forEach(year => {
-            const pubs = groupedByYear[year];
-            pubs.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)); // sort oldest first
-    
-            pubs.forEach((pub, i) => {
-              processed.push({
-                ...pub,
-                volume: yearToVolume[year],
-                issue: i + 1,
-              });
-            });
-          });
-    
-          // STEP 4: Set final state
-          setPublications(processed);
-          console.log(processed);
+          setPublications(response.data.publications);
+          console.log(response.data.publications);
     
         } else {
           Swal.fire({ text: 'Failed to fetch publications.' });
@@ -296,6 +290,16 @@ const PublishedArticles = () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
    // Function to get category name from categories array
    const getCategoryName = (categoryId) => {
     const category = categories.find((cat) => cat.id == categoryId);
@@ -311,7 +315,7 @@ const PublishedArticles = () => {
       
       if (response.data.success) {
         setAuthors(response.data.authors);
-        console.log(response.data.authors); // Check if authors are being fetched
+        // console.log(response.data.authors); // Check if authors are being fetched
       } else {
         console.error('Failed to fetch authors.');
       }
@@ -457,8 +461,23 @@ const PublishedArticles = () => {
              <Img src={logo} alt="logo"/>
              <CardTitle>{publication.title.toUpperCase()}</CardTitle>
              </TitleWrap>
-              <CardText><strong>By:</strong> {getAuthorName(publication.author_id)} | In the Year {new Date(publication.created_at).getFullYear()}</CardText>
+           
+             <br/>
+              {/* <CardText><strong>By:</strong> {getAuthorName(publication.author_id)} | In the Year {new Date(publication.created_at).getFullYear()}</CardText> */}
               <p><strong style={{fontSize:"0.9rem"}}>Volume {publication.volume}, Issue {publication.issue}</strong></p>
+          
+                {publication.doiLink && <CardText>
+  <strong>DOI:</strong>{" "}
+  <a
+    href={`https://doi.org/${publication.doiLink}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{ color: "blue", textDecoration: "underline" }}
+  >
+    https://doi.org/{publication.doiLink}
+  </a>
+</CardText>
+}
           <CardActions>
                 <CardButton onClick={()=>navigate(`/publicationdetail/${publication.id}`)} >
                   <FaNewspaper size={20}  />

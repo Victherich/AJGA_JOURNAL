@@ -7,7 +7,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { FaUser, FaCalendar, FaLink, FaFilePdf } from 'react-icons/fa';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import logo from '../Images/logo.png'
 import { Context } from './Context';
 import { useSelector } from 'react-redux';
@@ -154,7 +154,8 @@ const PublicationDetail = () => {
   const [publication, setPublication] = useState(null);
   const [error, setError] = useState('');
   const { id } = useParams();
-  const {categories}=useContext(Context)
+  const {categories}=useContext(Context);
+  const navigate = useNavigate();
 
 
   const [authorName, setAuthorName] = useState('');
@@ -254,13 +255,26 @@ const PublicationDetail = () => {
         <Details>
           <Title>{publication.title.toUpperCase()}</Title>
 
-          <Subtitle>
+          {/* <Subtitle>
             <FaUser /> Author : {authorName}
-          </Subtitle>
+          </Subtitle> */}
 
           <Subtitle>
   <FaCalendar /> Published Year: {new Date(publication.created_at).getFullYear()}
 </Subtitle>
+
+ {publication.doiLink && <Subtitle>
+  <strong>DOI: </strong>{" "} 
+  <a
+    href={`https://doi.org/${publication.doiLink}`}
+    target="_blank"
+    rel="noopener noreferrer"
+    style={{ color: "blue", textDecoration: "underline" }}
+  >
+    https://doi.org/{publication.doiLink}
+  </a>
+</Subtitle>
+}
 
 
 
@@ -274,7 +288,7 @@ const PublicationDetail = () => {
           </Description>
 
           <Description>
-            <strong>Co-Authors:</strong> {publication.co_authors}
+            <strong>Author(s):</strong> {publication.co_authors}
           </Description>
 
           <Description>
@@ -310,12 +324,12 @@ const PublicationDetail = () => {
           </DownloadButton>
 
 
-          <StyledLink onClick={()=>window.open(`${publication.doiLink}`,"_blank")}>
+         {publication.doiLink && <StyledLink onClick={()=>window.open(`https://doi.org/${publication.doiLink}`,"_blank")}>
             <FaLink /> View DOI Link
-          </StyledLink>
+          </StyledLink>}
         </Details>
       </Container>
-      <BackButton onClick={()=>window.history.back()}>Back</BackButton>
+      <BackButton onClick={()=>navigate('/issuesandpubs/0')}>Back to Publications</BackButton>
     </ContainerWrap>
   );
 };

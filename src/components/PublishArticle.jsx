@@ -213,6 +213,8 @@ const PublishArticle = ({setActivePage}) => {
     articleCategory: "Research Article", // Updated field name
     manuscriptFile: null,
     articleCode: generateArticleCode(), // Generate 9-digit article code
+    volume: "",
+  issue: ""
   });
 
   console.log(formData)
@@ -261,6 +263,8 @@ const PublishArticle = ({setActivePage}) => {
     formDataToSend.append("author_id", formData.author_id); 
     formDataToSend.append("manuscriptFile", formData.manuscriptFile);
     formDataToSend.append("editor_id", editorInfo.id);
+    formDataToSend.append("volume", formData.volume);
+formDataToSend.append("issue", formData.issue);
 
     try {
       const response = await fetch("https://www.ajga-journal.org/api/publish_article.php", {
@@ -272,6 +276,8 @@ const PublishArticle = ({setActivePage}) => {
       Swal.fire({text:result.message,icon:"success"});
 
       if (result.success) {
+
+          const articleId = result.id; // 👈 GET ID FROM BACKEND
         setFormData({
             author_id:"",
          doiLink:"",
@@ -282,11 +288,14 @@ const PublishArticle = ({setActivePage}) => {
           coAuthors: "",
           articleCategory: "",
           manuscriptFile: null,
-          articleCode: generateArticleCode(),
+          articleCode: generateArticleCode(), 
+          volume: "",
+  issue: ""
         });
         setFileName("");
         setActivePage('profile')
-
+registerDOI(articleId); 
+console.log(articleId)
       }
     } catch (error) {
       Swal.fire({text:"Failed to submit manuscript. Please try again."});
@@ -295,6 +304,52 @@ const PublishArticle = ({setActivePage}) => {
 
     }
   };
+
+
+
+
+const registerDOI = async (articleId) => {
+  Swal.fire({
+    title: "Registering DOI...",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading(),
+  });
+
+  try {
+    const res = await fetch(
+      "https://www.ajga-journal.org/api/register_doi.php",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: articleId }),
+      }
+    );
+
+    const data = await res.json();
+
+    Swal.close();
+
+    if (data.success) {
+      Swal.fire(
+        "Success",
+        `DOI: ${data.doi}`,
+        "success"
+      );
+    
+    } else {
+      Swal.fire("Error", data.message, "error");
+    }
+
+  } catch (err) {
+    Swal.close();
+    Swal.fire("Error", "Network or server error", "error");
+  }
+};
+
+
+
 
 
 
@@ -494,8 +549,9 @@ const getCategoryName = (categoryId) => {
           </InputField>
 
           <InputField>
+          <p style={{fontSize:"0.7rem"}}>**Please start with the main author**</p>
             <FaUserFriends />
-            <input type="text" name="coAuthors" placeholder="Co-Authors (if any)" onChange={handleChange} />
+            <input type="text" name="coAuthors" placeholder="Author(s)" onChange={handleChange} required/>
           </InputField>
 
           <InputField>
@@ -506,10 +562,33 @@ const getCategoryName = (categoryId) => {
               ))}
             </select>
           </InputField>
+          <InputField>
+  <FaFileAlt />
+  <input
+    type="number"
+    name="volume"
+    placeholder="Volume (e.g. 1, 2, 3...)"
+    min="1"
+    required
+    onChange={handleChange}
+  />
+</InputField>
+
+<InputField>
+  <FaFileAlt />
+  <input
+    type="number"
+    name="issue"
+    placeholder="Issue (e.g. 1, 2, 3...)"
+    min="1"
+    required
+    onChange={handleChange}
+  />
+</InputField>
 
           <InputField>
             <FaLink />
-            <input type="text" name="doiLink" placeholder="DOI Link (optional)" onChange={handleChange} />
+            <input type="text" name="doiLink" placeholder="DOI Link (optional)" onChange={handleChange} disabled/>
           </InputField>
 
           <InputField>
