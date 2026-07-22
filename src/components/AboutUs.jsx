@@ -385,6 +385,10 @@ const AboutUs = () => {
       <ListItem>👨‍🏫 <strong>Prof. Joseph Bamidele Minari</strong><br/>
         📍 Department of Cell Biology and Genetics, University of Lagos, Nigeria
       </ListItem>
+
+        <ListItem>👨‍🏫 <strong>Dr. (Mrs) Oyeyemi Adeyemi</strong><br/>
+        📍 Department of Biochemistry, Federal University of Petroleum Resources Effurun, Delta State, Nigeria
+      </ListItem>
     </List>
   </Content>
   <Image src={editorialImage} alt="Editorial Board" />
