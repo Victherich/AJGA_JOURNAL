@@ -262,9 +262,12 @@ const PublicationDetail = () => {
           <Subtitle>
   <FaCalendar /> Published Year: {new Date(publication.created_at).getFullYear()}
 </Subtitle>
+<Subtitle>
+  Volume: {publication.volume}, Issue: {publication.issue}
+</Subtitle>
 
  {publication.doiLink && <Subtitle>
-  <strong>DOI: </strong>{" "} 
+  <strong>DOI : {" "} </strong>
   <a
     href={`https://doi.org/${publication.doiLink}`}
     target="_blank"

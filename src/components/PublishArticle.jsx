@@ -585,11 +585,11 @@ const getCategoryName = (categoryId) => {
     onChange={handleChange}
   />
 </InputField>
-
+{/* 
           <InputField>
             <FaLink />
             <input type="text" name="doiLink" placeholder="DOI Link (optional)" onChange={handleChange} disabled/>
-          </InputField>
+          </InputField> */}
 
           <InputField>
             <FaFileAlt />
